@@ -1,0 +1,4 @@
+#To exclude the folder containing the compiled files:
+Output/
+#IDE settings
+.vscode/

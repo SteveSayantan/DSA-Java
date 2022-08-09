@@ -1,0 +1,21 @@
+## For separating the Input and the Output dir
+
+1. First, create the parent dir.
+2. "Open with VS Code"
+3. Create two separate folders for the source codes and the compiled files. 
+4. In settings.json, (**WorkSpace, not User**) ,  
+
+{
+"java.project.outputPath": "./Output/",     (The relative path to the folder(from the parent dir) where the compiled files are to be stored)
+"java.project.sourcePaths": ["./Source/"]     (The relative path to the folder(from the parent dir) where the source files are to be stored. This takes an array of paths)
+}
+
+
+In this way, we can have separate folders for source and compiled files. However, all these settings are folder specific i.e., for other folders we have to set again. 
+
+
+####If the VS Code fails to locate the JDK, inside settings.json (User) set: 
+
+"java.jdt.ls.java.home": "E:\\Java"
+
+This takes the absolute path to the folder containing JDK. For details, check out the feature contribution section by opening the extension in VS Code.
