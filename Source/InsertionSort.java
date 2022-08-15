@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class InsertionSort{
     /* 
-        1. The time complexity for InsertionSort algorithm in worst case is O(N^2).
+        1. The time complexity for InsertionSort algorithm in worst case is O(N^2) and it has a constant space complexity.
 
         2. The time complexity for InsertionSort algorithm in best case is O(N).
 

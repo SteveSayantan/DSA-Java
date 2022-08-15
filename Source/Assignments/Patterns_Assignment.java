@@ -47,4 +47,23 @@ public class Patterns_Assignment {
             System.out.println();
         }
     }
+
+    static void pattern108(int n){
+        for (int row = 1; row <=n; row++) {
+           
+            int actualCol= row>n/2 ? n-row+1:row;
+
+            for (int col = 1; col <=n; col++) {
+
+                if((col==actualCol||col==n-actualCol+1) && actualCol!=n/2+1){
+                    System.out.print("  ");
+                }
+                else{
+                    System.out.print("* ");
+                }
+            }
+            System.out.println();
+        }
+    }
+    
 }

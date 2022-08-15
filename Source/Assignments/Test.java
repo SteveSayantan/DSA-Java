@@ -28,9 +28,10 @@ public class Test {
         list2.add(9);
         list2.add(10);
 
-        System.out.println(findArrayIntersection(list1, 7, list2, 5));
+        // System.out.println(findArrayIntersection(list1, 7, list2, 5));
             
         // System.out.println(Arrays.toString(shuffle(arr,3)));
+        
     }
 
     static void PTriplet(int num1,int num2,int num3){
@@ -129,7 +130,6 @@ public class Test {
         }
         return newArray;
 	} 
-
 
     
     }

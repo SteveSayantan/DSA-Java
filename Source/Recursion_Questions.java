@@ -30,7 +30,7 @@ public class Recursion_Questions {
         */
 
         if(n<2) return n;
-        return Fibo(n-1)+Fibo(n-2); // The return value of each Fibo function depends on the functions returned by it. So it is **not** tail recursion.
+        return Fibo(n-1)+Fibo(n-2); // Any of these function calls made by Fibo function are not the last statement (Adding and returning the received values is the last step) of the function. So it is **not** tail recursion.
     }
     
 

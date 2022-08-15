@@ -56,7 +56,7 @@ public class Recursion_Basics {
         System.out.println(n);
         if(n==5) return;
 
-        print(n+1); //Each print function after printing its corresponding value, has nothing to do with this last function call, this is why it is called tail recursion. Refer to Recursion_Questions.java for more details.
+        print(n+1); //This function call is the last statement of the parent function. This is why it is called tail recursion. Refer to Recursion_Questions.java for more details.
     }
 
     //Recursion: When a function calls itself is called recursion.
@@ -82,6 +82,8 @@ public class Recursion_Basics {
     Note: Though the same function is called repeatedly (before the previous function call is over), each call would require separate memory allocation in the stack.
 
     Base Condition: Condition where our recursion will stop making new calls. Without Base Condition, the function calls will fill up the stack memory and result in StackOverFlow Error when the memory of the computer exceeds.
+
+    Recursion has a space complexity of O(N) i.e. the height (max length of path) of the recursion tree
     */
 
     //Uses of Recursion:

@@ -519,6 +519,52 @@ public class Array_Assignment {
         return ans;
     }
 
+   static int removeDuplicates(int[] nums){
+    // https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+    int fPointer= 0, sPointer= 1;
+    while(sPointer<nums.length){
+        
+        if(nums[sPointer]>nums[fPointer]){
+                swap(nums,fPointer+1,sPointer);
+                fPointer++;
+            }
+            else{
+                sPointer++;
+            }
+        
+    }
+    return fPointer+1;
+   } 
+   static void swap(int [] arr, int index1, int index2){
+    int temp= arr[index1];
+    arr[index1]=arr[index2];
+    arr[index2]=temp;
+}
+
+    static int[][] matrixReshape(int[][] mat, int r, int c){
+
+    // https://leetcode.com/problems/reshape-the-matrix/
+
+        if(r*c!=mat.length*mat[0].length) return mat;
+        
+        int [][] newMatrix= new int[r][c];
+        
+        int row_Num=0;
+        int col_Num=0;
+        
+        for(int row=0;row<mat.length;row++){
+            for(int col=0;col<mat[row].length;col++){
+                newMatrix[row_Num][col_Num]=mat[row][col];
+                col_Num++;
+                if(col_Num>c-1){
+                 row_Num++;
+                 col_Num=0;
+                } 
+            }
+        }
+        return newMatrix;  
+    } 
+    
     
 }
 
