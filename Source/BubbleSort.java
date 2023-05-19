@@ -9,6 +9,8 @@ public class BubbleSort {
 
     //Unstable sorting: If the original order of the duplicates is not maintained in the sorted array, is known as Unstable sorting.
 
+    //Though the time complexity of BubbleSort and SelectionSort is the same, for larger input size the latter one takes less CPU time as no of swaps is less.
+
     public static void main(String[] args) {
         int[] nums={3,1,5,4,2};
         Bubble(nums);

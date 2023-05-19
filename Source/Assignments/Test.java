@@ -32,6 +32,10 @@ public class Test {
             
         // System.out.println(Arrays.toString(shuffle(arr,3)));
         
+
+        int[][] nums1={{2,3,1},{3,2,1}}, nums2={{1,2},{2,1},{1,2}};
+        MultiplyArray(nums2, nums1);
+
     }
 
     static void PTriplet(int num1,int num2,int num3){
@@ -131,6 +135,28 @@ public class Test {
         return newArray;
 	} 
 
-    
+    static void MultiplyArray(int[][] arr1, int [][] arr2 ){
+
+        if(arr1[0].length!=arr2.length){
+            System.out.println("Invalid Array");
+            return;
+        }
+        for (int row = 0; row < arr1.length; row++) {
+
+            for (int colArr2 = 0; colArr2 < arr2[0].length; colArr2++) {
+                
+                int sum=0;
+
+                for (int numArr2 = 0; numArr2 < arr2.length; numArr2++) {
+
+                   sum+= arr1[row][numArr2]*arr2[numArr2][colArr2]; 
+                }
+                System.out.print(sum+" ");
+            }
+            System.out.println();
+        }
     }
+
+    }
+
 
