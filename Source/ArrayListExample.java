@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class ArrayListExample{
     public static void main(String[] args) {
-        //We need array list when we do not know the size of the Array and we want to input as much as we want
+        //We need array list when we do not know the size of the Array and we want to input as much as we want . It is included in Java Collection Framework
 
         //Syntax of Arraylist
         /**
@@ -34,5 +34,7 @@ public class ArrayListExample{
         list.remove(4); //removes the element at 4th index
 
         System.out.println(list);
+
+
     }
 }

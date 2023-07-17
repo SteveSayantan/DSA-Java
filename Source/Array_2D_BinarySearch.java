@@ -24,7 +24,7 @@ public class Array_2D_BinarySearch {
 
 
     }
-    static int[] search(int[][] arr,int target ){ //Given matrix is row wise and column wise sorted
+    static int[] search(int[][] arr,int target ){ //Given matrix is row wise and column wise sorted (But the last element in a row and the first element of the next row might not be sorted )
 
         /* The row pointer moves N times and the column pointer moves N times in the worst case, therefore the time complexity of this search is O(N+N)= O(2N)= O(N) */
 
@@ -46,50 +46,32 @@ public class Array_2D_BinarySearch {
 
 
 
-    static int[] sortedSearch(int[][] arr,int target){ //Given matrix is strictly sorted, we shall have two rows when this function is over
+    static int[] sortedSearch(int[][] arr,int target){ //Given matrix is strictly sorted i.e. both row-wise and column wise such that the last element in a row is less than the first element of the next row .
 
-        int rStart=0,rEnd=arr.length-1,cMid=arr[0].length/2; //Column wise we are considering the middle coulmn
+        // Ref: https://youtu.be/ZYpYur0znng
+        // Here, instead of considering the given 2D array as a matrix, we would consider it as a sorted array and apply BS as usual.
 
-        while(rStart<(rEnd-1)){ //In case of rStart<rEnd, rStart will be equal to rEnd when the loop breaks. But in this case, rStart will be greater than rEnd (rStart>rEnd) when the loop breaks, i.e. rStart=rEnd+1;
+        if(arr.length==0) return new int[]{-1,-1};
 
-            int mid= rStart+(rEnd-rStart)/2; //Row wise, we are considering the middle row while starting
+        int start=0, end = arr.length*arr[0].length-1;  // index of last element= (total no. of elements-1)
 
-            if(arr[mid][cMid]==target){
-                return new int[] {mid,cMid};
-            }
-            else if(arr[mid][cMid]<target){ //If the element is less than target,the previous row should be discarded (But the other elements in the current row might contain the target)
-                rStart=mid;
-            }
-            else{   //If the element is greater than target, next rows should be discarded (But the other elements in the current row might contain the target)
-                rEnd=mid;
-            }
-            
-        }
-
-        //Now we have two rows, apply BS accordingly
-
-        if(target>=arr[rStart+1][0]){
-            return binarySearch(target, arr, rStart+1);
-        }
-        else{
-            return binarySearch(target, arr, rStart);
-        }
-    }
-    static int[] binarySearch(int target,int[][] arr,int row){
-        int start=0,end=arr[row].length-1;
         while(start<=end){
-            int mid=start+(end-start)/2;
+            int mid= start+(end-start)/2;
 
-            if(arr[row][mid]==target){
-                return new int[]{row,mid};
-            }
-            else if(arr[row][mid]>target){
+            int row= mid/arr[0].length;         // calculating the row index
+            int col= mid%arr[0].length;            // calculating the column index
+
+            if(arr[row][col]>target){
                 end=mid-1;
             }
-            else{
+            else if (arr[row][col]<target){
                 start=mid+1;
+            }
+            else{
+                return new int[]{row,col};
             }
         }
         return new int[]{-1,-1};
     }
+    
 }

@@ -565,6 +565,52 @@ public class Array_Assignment {
         return newMatrix;  
     } 
     
-    
+    /* Striver's A2Z Course */ 
+
+    // Array Hard
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+
+        // sort the numbers first
+        Arrays.sort(nums);
+
+        for(int i=0;i<nums.length;i++){     // This for loop will run for n times
+
+            if(i>0 && nums[i]==nums[i-1]) continue;     // If the current element is same as the previous, skip it
+
+            // Otherwise, start searching for valid triplets
+            int j=i+1;
+            int k=nums.length-1;
+
+            while(j<k){
+
+                int sum= nums[i]+nums[j]+nums[k];
+
+                // Since the search space is sorted..
+
+                if(sum>0){
+                    k--;        // reduce the sum
+                }
+                else if(sum<0){
+                    j++;        // Increase the sum
+                }
+                else{
+                    // We found a valid triplet
+                    List<Integer> temp = new ArrayList<>();
+                    temp.add(nums[i]);
+                    temp.add(nums[j]);
+                    temp.add(nums[k]);
+                    ans.add(temp);
+                    j++;k--;
+
+                    // after finding a valid triplet, if we encounter duplicates, we have to skip those
+                    while(j<k && nums[j]==nums[j-1]) j++;
+                    while(j<k && nums[k]==nums[k+1]) k--;
+                }
+            }
+        }
+       return ans;
+    } 
 }
 

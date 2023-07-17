@@ -5,6 +5,7 @@ public class AreaOfCircle {
         Scanner in= new Scanner(System.in);
         System.out.print("Enter the radius of the circle : ");
         float rad= in.nextFloat();
+        in.close();
         float area=3.14f*rad*rad;
         float circumference=2*3.14f*rad;
 

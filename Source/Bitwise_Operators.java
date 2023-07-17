@@ -16,7 +16,7 @@ public class Bitwise_Operators {
 
         4. We already know, the basic concepts of XOR and OR also. The corresponding opeartors are ^ (Bitwise XOR) and | (Bitwise OR)
 
-        5. If we perform XOR operation on any number with 1, it will give its 1's complement. 
+        5. If we perform XOR operation on each bit of a number with 1, it will give 1's complement of the number. 
 
         6. ~ is used to take 1's complement of a number and it returns the decimal equivalent of the complement.
 
@@ -57,10 +57,13 @@ public class Bitwise_Operators {
      */
     public static void main(String[] args) {
 
-        // System.out.println(findBit(11, 1));
-        // System.out.println(powOfTwo(8));
+        // System.out.println(resetBit(5, 1));
+        System.out.println(magicNum(5,10));
 
         // System.out.println(power(2, 10));
+
+        System.out.println(5>>1);
+
 
         int [][] image={{1,1,0,0},{1,0,0,1},{0,1,1,1},{1,0,1,0}};
 
@@ -72,6 +75,7 @@ public class Bitwise_Operators {
 
         
     }
+    
     static boolean isOdd(int n){
     /* 
         Q1: Check the given number A is odd or even.
@@ -109,7 +113,7 @@ public class Bitwise_Operators {
     /* 
         Q3. Find the nth bit of a given number.
 
-        The idea is simple, we have to perform AND on the desired bit, remaining bits are to be ANDed with 0.
+        The idea is simple, we have to perform AND on the desired bit with 1, remaining bits are to be ANDed with 0.
 
         Therefore, we need to create a mask value that contains 1 at its nth bit and rest of the bits are 0.
 
@@ -126,7 +130,7 @@ public class Bitwise_Operators {
         return 0;
     }
 
-    static void setBit(){
+    static int setBit(int num, int n){
         /* 
          Q: Set the ith bit.
 
@@ -135,10 +139,13 @@ public class Bitwise_Operators {
             First, we shall create a mask that contains 1 at its ith position and rest of the bits are 0.
 
             Perform Bitwise OR operation on these two.
-        */     
+        */ 
+        
+        int mask= 1<<n-1;
+        return num|mask;
     }
 
-    static void resetBit(){
+    static int resetBit(int num,int n){
         /* 
          Q: Reset the ith bit.
 
@@ -149,20 +156,24 @@ public class Bitwise_Operators {
             To create that mask, we shall create a mask containing 1 at its ith position and take complement of it.
 
             Perform Bitwise AND operation on these two.
-        */     
+        */ 
+        int mask= ~(1<<n-1);
+        return num&mask;    
     }
 
-    static void posOfSetBit(){
+    static int posOfSetBit(int num){
         /* 
          Q: Find the position (from right) of the right most set bit.
 
-            We have to take the 2's complement of the given number and perform AND with the given number.
+            We have to take the 2's complement of the given number and perform bitwise AND with the given number.
 
-            Taking log(base 2) of the result will yield the position. Take any number and experiment with that.
+            Taking log(base 2) of the result and add 1 to get the position. If we want the index, we do not need to add 1. Take any number and experiment with that.
             
             For details, checkout the lecture.
          */
+        int twos_Complement= ~num+1;
         
+        return (int)(Math.log(twos_Complement&num)/Math.log(2))+1;
     }
 
     static void searchUnique(int [] arr){
@@ -170,7 +181,7 @@ public class Bitwise_Operators {
         /* 
          Q: In a given array, all the numbers appear thrice (or odd times). Find the number with single appearance. 
 
-            Take sum of all the elements. Modulo the result with three (i.e. the number of times each elements appear) and we shall get the result.
+            Take sum of all the elements. Modulo the result with three (or, the number of times each elements appear) and we shall get the result.
 
             Try on pen-paper for better understanding.
 
@@ -184,16 +195,15 @@ public class Bitwise_Operators {
             Check the lecture to find out what is magic number and the detailed approach for the solution.
         */
 
-        int ans=0;
+        int ans=0,base=b;
         while(n>0){
             int last=n&1;
             n=n>>1;
-            ans+=last*b;
-            b*=b;
+            ans+=last*base;
+            base*=b;
         }
         return ans;
     }
-
 
     static int noOfDigits(int n,int b){
         /* 
@@ -239,13 +249,13 @@ public class Bitwise_Operators {
         return (n&(n-1))==0;
     }
 
-    static int power(int a,int b){
+    static int power(int a,int b){ // T.C. O(log b)
         /* 
          Q: Find a^b.
          
-         Suppose, we want to find 3^6. We can write 6 as 110 in binary.
+         Suppose, we want to find 3^6. We can write 6 as 110 in binary, here 3 is base and 6 is exponent.
 
-         Therefore, 3^6= 3^110 . We can also say, 3^110 = 3^4 * 3^2 * 3^0  i.e. for each set bit, the base has to be raised at its corresponding place value and multiplied.  
+         Therefore, 3^6= 3^110 . We can also say, 3^110 = 3^4 * 3^2 * 3^0  i.e. for each set bit, the base has to be raised at corresponding place value of the set bit and multiplied.  
         */
 
         int ans=1;

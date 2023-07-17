@@ -5,14 +5,19 @@ public class Array_intro {
         
         /**Syntax for Creating Arrays
          *  
-         * datatype[] ref_variable_name= new datatype[size];       (LHS part is declaration and RHS part is memory allocation.new is used to create an Object)
+         * datatype[] ref_variable_name= new datatype[size];    ( new is used to create an Object)
+         * 
+         * Example:
+         * -------
+         * int [] data;         // It is declaration
+         * data= new int[5];    // It is memory allocation
          * 
          * In case of Arrays, the declaration occurs during the compile time and the initialization(memory allocation) happens at the run time 
          * 
-         * Unlike C or C++, the memory allocation of heap objects is not continuous and it depends on the JVM i.e., the cells in the memory are not allocated sequentially.
+         * Unlike C or C++, in Java the memory allocation of heap objects is not continuous and it depends on the JVM i.e., the cells in the memory are not allocated sequentially.
         */
 
-        int[] arr= new int[5]; //As this array has not been initialized yet, each of the index contains 0. In case of String array it would contain null.
+        int[] arr= new int[5]; //As this array has not been initialized yet, each of the index contains 0. In case of String array it would contain null (it is a special value that can be assigned to reference variables (!!not primitives!!)).
         
         arr[2]=45; //Now the second index contains 45.
 

@@ -5,7 +5,7 @@ public class Datatypes {
         System.out.println("Hey!!Whassup");
         Scanner input= new Scanner(System.in); //System.in denotes the standard input stream (keyboard). Scanner class is used to take inputs 
         System.out.println(input.nextInt()); //This line prints the integer value next to input
-
+        input.close();
         byte small= 54; //stores 1 byte, value ranges from -128 to 127, default value 0
         short length= 108; //stores 2 bytes,default value 0
         int rollNo= 108654634; //We can also write like this 234_000_356, stores 4 bytes, default value 0
@@ -29,7 +29,7 @@ public class Datatypes {
          *  
          * We know int stores 4 bytes. 4*8=32 bits;
          * 
-         * Its range lies between -(2^32)/2 to (2^32)/2-1 (1 is subtracted because there is a 0)
+         * Its range lies between -(2^32)/2 to (2^32)/2-1 (1 is subtracted because there is a 0; 2's complement representation)
          * 
          */
         int num=1463847412;

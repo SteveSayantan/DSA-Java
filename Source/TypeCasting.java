@@ -36,7 +36,7 @@ public class TypeCasting {
        /*
         * Rules for Automatic Type Promotion
 
-        1. All the byte,short, char are promoted to int.
+        1. In a calculation, all the byte,short,char are always promoted to int.
         2. If any of the values involved is long, the whole calculation gives a long. In case of a float/double, the whole calculation gives float/double (i.e. to the biggest datatype) 
 
         */

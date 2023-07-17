@@ -17,7 +17,7 @@ public class Patterns {
         pattern31(4);
     }
 
-    static void pattern1(int n){
+    public static void pattern1(int n){
         for (int row = 0; row < n; row++) {
             //For each row, run the col
             for (int col = 0; col <n; col++) {

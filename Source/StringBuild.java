@@ -15,7 +15,11 @@ public class StringBuild {
         System.out.println(builder.deleteCharAt(0)); // deletes the character at 0 index and modifies the original object
 
         System.out.println(builder); //yxwvutsrqponmlkjihgfedcba    as the orginal object has been modified
+
     }
 
     
+    
 }
+
+

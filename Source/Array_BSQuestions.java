@@ -4,7 +4,10 @@ public class Array_BSQuestions {
         char[] cArr={'a','b','d','e','f','g'};
         // System.out.println(FloorOfNumber(array,47));
         // System.out.println(nextGreatestLetter(cArr,'f'));
-        System.out.println(ans(array,4));
+        // System.out.println(ans(array,4));
+
+        
+
 
     }
 
@@ -137,7 +140,7 @@ public class Array_BSQuestions {
         while(target>arr[end]){
             int temp= end+1; //This is my new start
 
-            end= end+(end-start+1)*2;
+            end= end+(end-start+1)*2;   // Increasing the number of elements in search space twice in each iteration
             start=temp;
         }
         return BinarySearch(arr, target, start, end);
@@ -166,7 +169,7 @@ public class Array_BSQuestions {
     // https://leetcode.com/problems/find-peak-element/ 
 
 
-        //Example of Mountain Array {1,2,3,4,3,1}  First increasing then decreasing.4 is the peak
+        //Example of Mountain Array {1,2,3,4,3,1}  First increasing then decreasing. 4 is the peak
 
         int start = 0;
         int end = arr.length - 1;
@@ -178,14 +181,14 @@ public class Array_BSQuestions {
                 // this is why end != mid - 1
                 end = mid;
             } else {
-                // you are in asc part of array
+                // you are in asc part of array, search the right part (if mid+1==mid, it will work also )
                 start = mid + 1; // because we know that mid+1 element > mid element
             }
         }
         // in the end, start == end (This breaks the loop) and pointing to the largest number because of the 2 checks above
         // start and end are always trying to find max element in the above 2 checks
         
-        return start; // or return end as both are = 
+        return start; // or return end as both are equal 
     }
 
 
@@ -251,14 +254,11 @@ public class Array_BSQuestions {
 
 
 
-   // https://leetcode.com/problems/search-in-rotated-sorted-array/     
-   
-   //(For duplicate values watch the video)
-
+   // https://leetcode.com/problems/search-in-rotated-sorted-array/ 
+       
    static int search(int[] nums, int target) {
-    int pivot = findPivot(nums);
-
-    // if you did not find a pivot, it means the array is not rotated
+       int pivot = findPivot(nums);    
+       // if you did not find a pivot, it means the array is not rotated
     if (pivot == -1) {
         // just do normal binary search
         return BiSearch(nums, target, 0 , nums.length - 1);
@@ -294,13 +294,15 @@ public class Array_BSQuestions {
    static int findPivot(int[] arr){
     int start = 0;
     int end = arr.length - 1;
-    while (start <= end) {
+
+    while (start < end) {
+
         int mid = start + (end - start) / 2;
         // 4 cases over here
-        if (mid < end && arr[mid] > arr[mid + 1]) {
+        if (mid < end && arr[mid] > arr[mid + 1]) {     // As the while loop runs for start<end, mid will be always less than end, therefore the first check is unnecessary
             return mid;
         }
-        if (mid > start && arr[mid] < arr[mid - 1]) {
+        if (mid > start && arr[mid] < arr[mid - 1]) {   // It might be possible that the mid is the first element in the array, therefore the first check is necessary
             return mid-1;
         }
         if (arr[mid] <= arr[start]) {
@@ -312,19 +314,101 @@ public class Array_BSQuestions {
     return -1;
    }
 
-   public int splitArray(int[] nums, int m) {
+   
+   // https://leetcode.com/problems/search-in-rotated-sorted-array/ (Striver's Version)    
 
-    // https://leetcode.com/problems/split-array-largest-sum/
+   static int searchInRotatedSorted_unique(int start,int end,int target,int[] arr){
+        /* 
+            Here, instead of finding the pivot, we shall find in which sorted part the mid exists (i.e. left part or right part )
+            And perform our BS according to that.
+            Reference: https://youtu.be/5qGrJbHhqFs
+         */
+        while(start<=end){
+
+            int mid= start+(end-start)/2;
+    
+            if(target==arr[mid]) return mid;
+    
+            if(arr[mid]>=arr[start]){
+
+                // The mid is in the left sorted part
+                if(target>=arr[start]&& target<arr[mid]){ // This is the condition for the target to be present within this range
+                    end=mid-1;
+                }
+                else{
+                    start=mid+1;           // Search the other part
+                }
+            }
+            else{
+                // The mid is in the right sorted part
+                if(target>arr[mid]&& target<=arr[end]){     //This is the condition for the target to be present within this range
+                    start=mid+1;
+                }
+                else{
+                    end=mid-1;             // Search the other part
+                }
+            }
+        }
+
+    return -1;
+   }
+
+   //https://leetcode.com/problems/search-in-rotated-sorted-array-ii
+   static boolean searchInRotatedSorted_duplicate(int[] arr,int target){
+        /* 
+            Here, the idea is same as the previous one. Only if duplicates occur at start,mid and end we shall discard that case.
+            Reference: https://youtu.be/w2G2W8l__pc
+         */
+        int start=0,end= arr.length;
+        while(start<=end){
+
+            int mid= start+(end-start)/2;
+    
+            if(target==arr[mid]) return true;
+
+            else if(arr[start]==arr[mid]&& arr[mid]==arr[end]){     // If duplicates occur, discard those
+                start++;
+                end--;
+            }
+    
+            else if(arr[mid]>=arr[start]){
+
+                // The mid is in the left sorted part
+                if(target>=arr[start]&& target<arr[mid]){ // This is the condition for the target to be present within this range
+                    end=mid-1;
+                }
+                else{
+                    start=mid+1;           // Search the other part
+                }
+            }
+            else{
+                // The mid is in the right sorted part
+                if(target>arr[mid]&& target<=arr[end]){     //This is the condition for the target to be present within this range
+                    start=mid+1;
+                }
+                else{
+                    end=mid-1;             // Search the other part
+                }
+            }
+        }
+
+    return false;
+   }
+
+   
+   // https://leetcode.com/problems/split-array-largest-sum/
+   static int splitArray(int[] nums, int m) {
+
     int start = 0;
     int end = 0;
 
-    //When the value of m is max, the max sum is going to be the sum of all the elements in the array.
-    //When the value of m is min, the min sum is going to be the element in the array.
+    //When the value of m is min, the max sum is going to be the sum of all the elements in the array.
+    //When the value of m is max, the max sum is equal to the largest element in the array.
 
     //So we can say, the max sum for a given value of m is going to lie between the above two numbers. In this space, we will apply BS.
     for (int i = 0; i < nums.length; i++) {
-        start = Math.max(start, nums[i]); // in the end of the loop this will contain the max item of the array
-        end += nums[i];
+        start = Math.max(start, nums[i]);       //  this will contain the max item of the array
+        end += nums[i];                         //  this will contain the sum of items in the array
     }
 
     // binary search
@@ -349,8 +433,27 @@ public class Array_BSQuestions {
         if (pieces > m) { //If pieces are greater than m, that means we need to reduce the pieces, we do that by increasing the sum of individual subarray (greater the individual sum, greater no of elements in each subarray, lesser the number of subarray)
             start = mid + 1;
         } 
-        else { //If pieces are less than m, that means we need to increase the pieces, we do that by decreasing the sum of individual subarray (less the individual sum, less no of elements in each subarray, greater the number of subarray)
-            end = mid;
+        else { //If pieces are less than or equal to m, that means we need to increase the pieces, we do that by decreasing the sum of individual subarray(less the individual sum, less no of elements in each subarray, greater the number of subarray)
+
+            end = mid;    
+
+            // Here, the end carries the mid (which is a possible answer). That's why when start falls on end i.e. start==end we get our answer (this is also the reason we need not write start<=end )  
+
+            /* 
+                Intuition behing end=mid:
+                ------------------------
+                Even if we split the array, less than the required value for a particular value of 'mid' , that might be a possible answer as we can always reduce the number of items in one sub-array and
+                 form another sub-array (as 'mid' indicates the maximum sum to be allowed per sub-array, enabling us to allocate any number of items having sum less than 'mid') .
+
+                Therefore, we are doing  end=mid to preserve this value of mid , when the number of split is less than (or equal) the required value.
+
+                Test for this testcase, Array:[15,10,19,10,5,18,7], K= 5
+
+                The correct answer will be 25, splitted like --> [15], [10], [19], [10,5], [18,7]
+
+                Our code willl split like this --> [15,10], [19], [10,5], [18,7] . But to get 5 splits, we can reduce the number of items in the first sub-array. Reason explained above.
+             */
+             
         }
 
     }
@@ -374,5 +477,6 @@ public class Array_BSQuestions {
        } 
        return count;
 }
+
 
 }

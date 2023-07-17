@@ -36,7 +36,7 @@ public class Array_2D {
                 arr2[row][col]= in.nextInt();
             }
         }
-
+        in.close();
         //Displaying the Output
 
         for (int[] ele : arr2) {

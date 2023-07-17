@@ -148,12 +148,17 @@ public class CycleSort_Questions {
             int correct=nums[i]-1;
 
             if(nums[i]!=nums[correct] ){
-                swap4(nums, i, correct);
+                swap5(nums, i, correct);
             }
             else{
                 i++;
             }
         }
+        /* 
+            In this problem, we have to find the duplicate element, as well as the correct element. 
+            Even though we can find the duplicate element using the 'findDuplicate' strategy, we can not find the correct number with that approach. 
+            Hence we must use this for loop approach. 
+        */
         for(int j=0;j<nums.length;j++){
             if(nums[j]!=j+1){
                 return new int[]{nums[j],j+1};

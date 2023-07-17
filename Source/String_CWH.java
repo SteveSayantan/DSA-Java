@@ -12,7 +12,7 @@ public class String_CWH {
 
         String name2= new String("Sweet"); //String is a class, name2 is the reference variable and "Sweet" is the object;
         String name3= new String("Sweet"); // as new keyword is used, name2 and name3 are two separate objects stored in heap memory (outside the pool)
-
+        
         //Compairing Strings
 
         // == checks the value and if the reference variables are pointing towards the same object.
@@ -41,7 +41,7 @@ public class String_CWH {
          */
         
         //Formatting a neumeric String (For details checkout https://docs.oracle.com/javase/tutorial/java/data/numberformat.html )
-
+        
          double pi= Math.PI;
          System.out.format("%n%10.3f%n", pi); //%10.3f ==> prints total 10 characters and the result is displayed and rounded off upto three decimal places
 
@@ -54,7 +54,7 @@ public class String_CWH {
          System.out.println("It is used as\ttab"); // \t gives a tab
 
       
-        //Operators
+        //Operators ('+' is overloaded for string concatenation)
 
         System.out.println('a'+'b'); //195  Converts both the chars to their ASCII value and adds those
 
@@ -68,9 +68,8 @@ public class String_CWH {
         
         System.out.println("B"+new ArrayList<>()); // B[]    As ArrayList is an object, it will call toStirng() method for it, and convert it into a string to concatenate both. It creates a new String object.
 
-        System.out.println(56 +""+new ArrayList<>()); // 56[]    + generally works with primitives. If used with reference datatypes, + needs minimum one string, otherwise it will give error. (creates a new String object)
+        System.out.println(56 +""+new ArrayList<>()); // 56[]    + generally works with primitives(characters and numbers only). If used with reference datatypes, + needs minimum one string, otherwise it will give error. (creates a new String object)
 
-        
 
         }
 }

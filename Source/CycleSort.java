@@ -17,9 +17,9 @@ public class CycleSort {
         
         int i=0;
         while(i<arr.length){ //In case of cycle sort, the loop must run N times, otherwise it will not work properly
-            int correct= arr[i]-1;
-            if(arr[i]!=arr[correct]){   //Check if the element at the current index is same as the element at the correct index. This check can handle duplicates too.
-               swap(arr,i,correct) ;
+            int correctInd= arr[i]-1;
+            if(arr[i]!=arr[correctInd]){   //Check if the element at the current index is same as the element at the correct index. This check can handle duplicates too.
+               swap(arr,i,correctInd) ;
             }
             else{
                 i++;
