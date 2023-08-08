@@ -75,6 +75,7 @@ public class AlgoMaths {
         }
 
         double incr=0.1;
+        
         for (int i = 0; i < noOfDecimalPlaces; i++) {
 
             // Now we shall add keep adding 0.1 to the integer part, till it is < n .

@@ -16,7 +16,8 @@ public class Recursion_Questions {
             
             5. See how the values (and their types) are returned in each step and keep an eye on the flow of function.
        */ 
-      System.out.println(Fibo(4));
+          System.out.println(reverseNum(1021));
+        // printDescending(10);
     }
 
     static int Fibo(int n){ //Print nth Fibonacci Number
@@ -78,4 +79,66 @@ public class Recursion_Questions {
 
 
     }
+
+    // Recursion Easy Questions
+    static void printDescending(int n){
+        if(n==0) return;
+        System.out.println(n);      // Prints while going
+        printDescending(n-1);
+    }
+
+    static void printAscending(int n){
+        if(n==0) return;
+        printAscending(n-1);        // Prints while returning
+        System.out.println(n);
+    }
+
+    static void printBoth(int n){
+        if(n==0) return;
+        System.out.println(n);     // Prints both ways
+        printBoth(n-1);
+        System.out.println(n);
+    }
+
+    static int sumOfDigits(int n){
+        if(n==0) return 0;
+        return (n%10)+sumOfDigits(n/10);
+    }
+
+    static int productOfDigits(int n){
+        if(n%10==n) return n;       // If there is only one digit, return it
+        return (n%10)*productOfDigits(n/10); 
+    }
+
+
+    static int reverseNum(int n){
+        int digits= (int)Math.log10(n)+1;       
+        return reverseHelper(n, digits);        // since, we do not want to use global variable to store the ans, we are using helper function
+    }
+    static int reverseHelper(int n,int noOfDigits){
+        if(n%10==n) return n;
+        int rem= n%10;
+        return (int)Math.pow(10, noOfDigits-1)*rem + reverseHelper(n/10, noOfDigits-1);    // At every stage, it multiplies the remainder with 10^(no. of Digits) and adds value returned by the recursion call.
+    }
+
+
+    static boolean isPalindrome(int n){
+        return n==reverseNum(n);
+    }
+
+    static int countZeros(int n){
+        return countZerosHelper(n, 0);
+    }
+    static int countZerosHelper(int n, int count){
+        if(n==0) return count;      
+
+        int rem= n%10;
+        if(rem==0){
+            // If we get 0, call the function by increasing the count
+            return countZerosHelper(n/10, count+1);
+        }
+        // Otherwise, call the function w/o increasing the count
+        return countZerosHelper(n/10, count);
+    }
+
 }

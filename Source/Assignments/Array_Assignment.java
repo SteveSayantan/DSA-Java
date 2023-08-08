@@ -475,7 +475,9 @@ public class Array_Assignment {
 
 
     static void rotate(int[]nums,int k){
-       k%=nums.length;
+        // https://leetcode.com/problems/rotate-array/
+        
+       k%=nums.length;          // If k>nums.length, this will adjust k (As rotating multiples of K times will bring back the original array)
        reverse(nums,0,nums.length-1); //reverse all the numbers
 
        reverse(nums,0,k-1); //reverse the first K numbers
@@ -522,18 +524,21 @@ public class Array_Assignment {
    static int removeDuplicates(int[] nums){
     // https://leetcode.com/problems/remove-duplicates-from-sorted-array/
     int fPointer= 0, sPointer= 1;
-    while(sPointer<nums.length){
-        
-        if(nums[sPointer]>nums[fPointer]){
-                swap(nums,fPointer+1,sPointer);
-                fPointer++;
+        while(sPointer<nums.length){
+            
+            if(nums[sPointer]>nums[fPointer]){ 
+            // When we find unique element
+            
+                if(sPointer-fPointer>1){    // only swap when they are not adjacent
+                    swap(nums,fPointer+1,sPointer);
+                }
+                fPointer++;         // increment the fPointer 
             }
-            else{
-                sPointer++;
-            }
-        
-    }
-    return fPointer+1;
+            // increment the sPointer in each iteration
+            sPointer++;            
+            
+        }
+        return fPointer+1;
    } 
    static void swap(int [] arr, int index1, int index2){
     int temp= arr[index1];
@@ -567,6 +572,128 @@ public class Array_Assignment {
     
     /* Striver's A2Z Course */ 
 
+    // Array Easy
+    static int[] getSecondOrderElements(int n, int []a) {
+        // https://www.codingninjas.com/studio/problems/ninja-and-the-second-order-elements_6581960
+
+        return new int []{getSecondLargest(a),getSecondSmallest(a)};
+
+    }
+    static int getSecondLargest(int [] a){
+        int max= a[0];
+        int sLargest=Integer.MIN_VALUE;
+
+        for (int i=1;i<a.length;i++){
+
+            if(a[i]>max ){
+                sLargest=max; // Whenever we find new max, store the old max in sLargest
+                max=a[i];
+            }
+            else if(sLargest<a[i]){ // The current element might be smaller than max, but it could be greater than current sLargest
+                sLargest=a[i];
+            }
+        }
+        return sLargest;
+    }
+    static int getSecondSmallest(int [] a){
+        int min= a[0];
+        int sSmallest=Integer.MAX_VALUE;
+
+        for (int i=1;i<a.length;i++){
+
+            if(a[i]<min){
+                sSmallest=min;  // Whenever we find new min, store the old max in sSmallest
+                min=a[i];
+            }
+            else if (sSmallest>a[i]){   // The current element might be greater than min, but it could be smaller than current sSmallest
+                sSmallest=a[i];      
+            }
+        }
+        return sSmallest;
+    }
+    
+
+    public void moveZeroes(int[] nums) {
+        // https://leetcode.com/problems/move-zeroes/description/
+        
+        if(nums.length==1){
+            return;
+        }
+        int fPointer=-1;
+
+        for(int i=0;i<nums.length;i++){
+            // find the first index of 0
+            if(nums[i]==0){
+                fPointer=i;
+                break;
+            }
+        }
+
+        if (fPointer==-1) return;   // If not found, array does not contain any zero
+
+        // start a pointer from the next index and search for the immediate non-zero element
+        for(int j=fPointer+1;j<nums.length;j++){
+            if(nums[j]!=0){
+                swap(nums,fPointer,j);      // swap it
+                fPointer++;                 // increase the fPointer and repeat the process
+            }
+        }
+
+    }
+
+
+     static List< Integer > sortedArray(int []a, int []b) {
+        
+        int i=0,j=0;
+
+        List<Integer> ans= new ArrayList<>();
+        
+        while(i<a.length && j<b.length){
+
+            if(a[i]<b[j]){
+
+                if(ans.size()==0 || a[i]>ans.get(ans.size()-1)){    // If the array is empty or current element is greater than the last element inserted
+                    ans.add(a[i]);      // add it
+                }
+                i++;
+
+            }
+
+            else if(a[i]>b[j]){
+
+                if(ans.size()==0 || b[j]>ans.get(ans.size()-1)){
+                    ans.add(b[j]);
+                }
+                j++;
+            }
+            else{
+                 if(ans.size()==0 || a[i]>ans.get(ans.size()-1)){
+                    ans.add(a[i]);
+                }
+                i++;
+                j++;
+            }
+            
+        }
+
+        // if one of the arrays is still not exhausted, 
+
+        while(i<a.length){
+            if(a[i]>ans.get(ans.size()-1)){
+                ans.add(a[i]);
+            }
+            i++;
+        }
+        while(j<b.length){
+            if(b[j]>ans.get(ans.size()-1)){
+                ans.add(b[j]);
+            }
+            j++;
+        }
+        
+        return ans;
+    }
+    
     // Array Hard
 
     public List<List<Integer>> threeSum(int[] nums) {
@@ -612,5 +739,8 @@ public class Array_Assignment {
         }
        return ans;
     } 
+
+
+
 }
 

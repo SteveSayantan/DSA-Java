@@ -35,6 +35,9 @@ public class ArrayListExample{
 
         System.out.println(list);
 
+        list.addAll(list);      // This method adds the elements to an arraylist from other arraylist
+        
+        System.out.println(list);
 
     }
 }

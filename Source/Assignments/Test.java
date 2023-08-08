@@ -8,7 +8,7 @@ public class Test {
         
         // Factorial(2);
 
-        // LeapYear(2024);
+        LeapYear(2020);
 
         // Table(19);
         int[] arr = {2,5,1,3,4,7};
@@ -34,7 +34,7 @@ public class Test {
         
 
         int[][] nums1={{2,3,1},{3,2,1}}, nums2={{1,2},{2,1},{1,2}};
-        MultiplyArray(nums2, nums1);
+        // MultiplyArray(nums2, nums1);
 
     }
 
@@ -62,24 +62,15 @@ public class Test {
     }
 
     static void LeapYear(int year){
-        if(year%4==0 && year%100==0){
-            
-            if(year%400==0){
-                System.out.println(year+" is a leap year");
-            }
-            else{
-                System.out.println(year+" is not a leap year");  
-            }          
+        if(year%4!=0)  {
+            System.out.println("Not a Leap Year");
+            return;
         }
-        else {
-            if(year%4==0){
-
-                System.out.println(year+" is a leap year");
-            }
-            else{
-                System.out.println(year+" is not a leap year");
-            }
+        if(year%100 ==0 && year%400!=0){
+            System.out.println("Not a Leap Year");
+            return;
         }
+        System.out.println("Leap Year");
     }
 
     static void Table(int n){
