@@ -1,3 +1,5 @@
+package Assignments;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -153,24 +155,44 @@ public class BS_Assignments {
     }
 
     static int findKthPositive(int[] arr,int k){
+
+        // The brute-force solution is also very important, checkout https://youtu.be/uZ0N_hZpyps
+
         int start=0,end=arr.length-1;
+
+        if(k<arr[0]) return k;
+        
         while(start<=end){
             int mid=start+(end-start)/2;
 
-            int missing= arr[mid]-(mid+1); //To calculate number of missing items at any index: actualEle-expectedEle== arr[index]-(index+1);
-            if(missing<k){
+            int totalMissing= arr[mid]-(mid+1); //To calculate total number of missing items till current index: actualEle-expectedEle== arr[index]-(index+1);
+            if(totalMissing<k){
                start=mid+1;
             }
-            else if(missing>=k){
+            else{          // Even if we find totalMissing==k, we have to check the left side again
                 end=mid-1;
             }
         }
-        if(end==-1) return k;
-        return arr[end]-(arr[end]-(end+1))+k; // arr[end]+k-elements_missing_till_end
 
-        //Instead of the two lines above
-        // return start+k;    //As arr[end]-elements_missing_till_end gives the start index and as start>end we don't have to think of the edge case where end becomes -1
+        /* 
+            When the loop ends, end and start will mark the beginning and end of the range respectively, in which the k-th missing number can be found
 
+            We will use,
+                arr[end]+(number of remaining missing elements after end) 
+
+             or,arr[end]+(k- number of remaining missing elements till end)
+
+             or,arr[end]+(k - arr[end]+end+1 )      // Acc. to formula stated above
+
+             or,arr[end] + k - arr[end] + end + 1
+
+             or, k + end +1
+
+             or, k + start  // as end+1 = start
+
+
+        */
+        return k+end+1; 
 
     }
 
@@ -240,24 +262,6 @@ public class BS_Assignments {
     static boolean checkIfExist(int[] arr){
 
         //First, sort the array in ascending order
-
-        int start=0,end=1;
-        while(start<=end){
-
-            if(start<arr.length-1&&arr[start]*2<arr[end]){
-                start++;
-            }
-            else if(end<arr.length-1&&arr[start]*2>arr[end]){
-                end++;
-            }
-            else if(arr[start]*2==arr[end]){
-                return true;
-            }
-            else{
-
-                break;
-            }
-        }
         return false;
         
     }
@@ -272,7 +276,7 @@ public class BS_Assignments {
             
             But even if we figure out in which sorted part (left or right) the mid is lying, we can not say that part contains the min element.
 
-            Hence, we shall pick min element from each sorted part and eleminate it.
+            Hence, we shall pick min element from each sorted part and eleminate that half.
         */
 
         int low = 0, high = arr.length - 1;
@@ -306,7 +310,9 @@ public class BS_Assignments {
             Here, the intuition is quite similar to the previous question. However, if we encounter some situation
             where the low, mid and high elements are equal, we can not determine the sorted half.
 
-                Therefore, we need to trim down this condition by skipping those elements
+            Because, arr[low] <= arr[mid] this check becomes invalid when elements at low,mid,end are equal . 
+
+                Therefore, we need to trim down this condition by skipping those indices.
          */
         int low = 0, high = arr.length - 1;
         int ans = Integer.MAX_VALUE;
@@ -314,7 +320,7 @@ public class BS_Assignments {
             int mid = (low + high) / 2;
 
             if(arr[low]==arr[mid] && arr[mid]==arr[high]){
-                ans= Math.min(ans,arr[mid]);        // Compare with ans, as these might be the smallest 
+                ans= Math.min(ans,arr[mid]);        // Compare with ans, as this might be the smallest 
                 low++;
                 high--;
                 continue;
@@ -635,14 +641,15 @@ public class BS_Assignments {
         // Reference: https://youtu.be/NTop3VTjmxk
 
         int m= nums1.length, n= nums2.length;
-
-        int low=0,high=m;
+        
+        if(m>n) return findMedianSortedArrays(nums2,nums1);     // Always apply BS on the small array to avoid index overflow while calculating l1,l2 and r1,r2
 
         // Calculating the number of elements on each side of the partition
         
-        int medianPos=((m+n)+1)/2;          // Remember this, irrespective of even or odd total length (i.e. m+n ), we know the smaller part will always contain (m+n+1)/2 elements
+        int medianPos=((m+n)+1)/2;          // Remember this, irrespective of even or odd total length (i.e. m+n ), we know the left part will always contain (m+n+1)/2 elements
+        
 
-        if(m>n) return findMedianSortedArrays(nums2,nums1);     // Always apply BS on the small array to avoid index overflow while calculating l1,l2 and r1,r2
+        int low=0,high=m;       // From the first array, we can take anywhere between 0 to m elements for constructing the left half.
 
         while(low<=high) {
 
@@ -665,7 +672,7 @@ public class BS_Assignments {
             }
             else if(l1>r2) high = cut1-1;
 
-            else low = cut1+1;
+            else low = cut1+1;      // when r1<l2, we need to increase r1
         }
         return 0.0;
 

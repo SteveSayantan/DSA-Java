@@ -1,3 +1,5 @@
+package Assignments;
+
 import java.util.Scanner;
 
 public class Find_the_Factors {
@@ -5,7 +7,7 @@ public class Find_the_Factors {
         Scanner in= new Scanner(System.in);
 
         int num= in.nextInt(),c=1;
-
+        in.close();
         while (c*c<=num) {
             if(num%c==0){
                 System.out.print(c+" ");

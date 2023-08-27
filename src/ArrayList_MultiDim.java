@@ -20,5 +20,6 @@ public class ArrayList_MultiDim {
         }
 
         System.out.println(multiList);
+        in.close();
     }
 }

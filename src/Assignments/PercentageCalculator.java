@@ -1,3 +1,5 @@
+package Assignments;
+
 import java.util.Scanner;
 
 public class PercentageCalculator {
@@ -13,6 +15,7 @@ public class PercentageCalculator {
         
         if(subject<=0||totalMarks<=0) {
             System.out.println("Invalid Input");
+            in.close();
             return;
         }
 
@@ -25,6 +28,7 @@ public class PercentageCalculator {
         System.out.println();
         System.out.println("Obtained Percentage: "+percentage);
 
+        in.close();
 
     }
 }

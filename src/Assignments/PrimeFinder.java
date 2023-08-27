@@ -1,3 +1,5 @@
+package Assignments;
+
 public class PrimeFinder {
     public static void main(String[] args) {
         PrintPrime(4,5);

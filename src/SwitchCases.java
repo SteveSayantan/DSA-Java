@@ -5,6 +5,7 @@ public class SwitchCases {
         Scanner in = new Scanner(System.in);
         String fruit = in.next().trim();
         int day= in.nextInt();
+        in.close();
 /**
        Traditional Switch Case Statement: (Without the break, it will keep executing the other cases even after executing the right one)
  

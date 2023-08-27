@@ -1,3 +1,5 @@
+package Assignments;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,6 +37,9 @@ public class Test {
 
         int[][] nums1={{2,3,1},{3,2,1}}, nums2={{1,2},{2,1},{1,2}};
         // MultiplyArray(nums2, nums1);
+
+        
+
 
     }
 
@@ -103,8 +108,7 @@ public class Test {
         return arr;
     }
 
-    static ArrayList<Integer> findArrayIntersection(ArrayList<Integer> arr1, int n, ArrayList<Integer> arr2, int m)
-	{
+    static ArrayList<Integer> findArrayIntersection(ArrayList<Integer> arr1, int n, ArrayList<Integer> arr2, int m){
 		// Write Your Code Here.
           int i=0,j=0;
         ArrayList<Integer> newArray= new ArrayList<>() ;
@@ -147,8 +151,6 @@ public class Test {
             System.out.println();
         }
     }
-
-    
 
 }
 

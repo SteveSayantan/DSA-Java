@@ -1,3 +1,5 @@
+package Assignments;
+
 import java.util.Scanner;
 
 public class PalindromeStr {
@@ -6,6 +8,7 @@ public class PalindromeStr {
         
         System.out.println(checkIfPalindrome(in.next())); 
         
+        in.close();
         
     }
     

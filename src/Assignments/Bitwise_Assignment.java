@@ -1,3 +1,5 @@
+package Assignments;
+
 import java.util.ArrayList;
 
 public class Bitwise_Assignment {

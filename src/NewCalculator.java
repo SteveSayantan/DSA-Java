@@ -23,6 +23,7 @@ public class NewCalculator {
             System.out.println(ans);
             
         }
+        in.close();
     }
     
 }

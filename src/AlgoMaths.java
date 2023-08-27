@@ -6,10 +6,10 @@ public class AlgoMaths {
 
         // System.out.format("%.1f",sqroot(12, 1));
 
-        // System.out.format("%.2f",newtonRaphson(12, 0.05));      // e.g. if the actual sqrt is 3.55, we may get values upto 3.60 
+        System.out.format("%.2f",newtonRaphson(5, 0.1));      // e.g. if the actual sqrt is 3.55, we may get values upto 3.60 
 
         // printFactors(50);
-        System.out.println(gcd(30, 0));
+        // System.out.println(gcd(30, 0));
     }
 
     static void sieve(int n){ // Sieve of Eratosthenis
@@ -18,7 +18,7 @@ public class AlgoMaths {
         General Idea:
         ------------
         It is used to find all the prime numbers in a given range. For a given range, all the multiples of each number are eliminated. 
-        Finally, we are left with only Prime numbers i.end. numbers which are not multiple of any other number.
+        Finally, we are left with only Prime numbers i.e. numbers which are not multiple of any other number.
 
         Implementation  T.C. O(N*log(logN))
         --------------
@@ -37,7 +37,7 @@ public class AlgoMaths {
             
             if(!newArr[i]){
 
-                for (int j = i*i; j <=n; j+=i) {    // we need to check from i*i as the multiples before it are already checked by previous numbers.
+                for (int j = i*i; j <=n; j+=i) {    // we need to check from i*i (instead of 2*i) as the multiples before it are already checked by previous numbers.
                     newArr[j]=true;
                 }
             }
@@ -142,11 +142,11 @@ public class AlgoMaths {
 
         for (int i = 1; i*i <= n; i++) {
             if (n % i == 0) {
-                if (n/i == i) {
+                if (n/i == i) {         // For perfect squares, only print once, no need to store
                     System.out.print(i + " ");
                 }else {
-                    System.out.print(i + " ");
-                    list.add(n/i);          // storing these values in the arraylist
+                    System.out.print(i + " ");  // otherwise, print i and
+                    list.add(n/i);          // storing n/i values in the arraylist
                 }
             }
         }

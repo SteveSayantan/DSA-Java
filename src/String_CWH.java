@@ -56,7 +56,7 @@ public class String_CWH {
       
         //Operators ('+' is overloaded for string concatenation)
 
-        System.out.println('a'+'b'); //195  Converts both the chars to their ASCII value and adds those
+        System.out.println('a'+'b'); //195  Converts both the chars to their ASCII value and adds those (Similarly, we can use other arithmetic operators also)
 
         System.out.println("a"+"B"); // aB  Concatinates as both are of type String (new String object aB is created)
 

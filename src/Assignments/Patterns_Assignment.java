@@ -1,3 +1,5 @@
+package Assignments;
+
 public class Patterns_Assignment {
     public static void main(String[] args) {
         pattern12(10);

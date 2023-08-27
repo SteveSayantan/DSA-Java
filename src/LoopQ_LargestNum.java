@@ -23,7 +23,7 @@ public class LoopQ_LargestNum {
         }
 
         System.out.println(max);
-
+        in.close();
         /**
          * It can be also done using Math obj. Math.max() method takes two numbers as input
          * 
