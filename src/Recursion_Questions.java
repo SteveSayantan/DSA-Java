@@ -15,6 +15,17 @@ public class Recursion_Questions {
                 b. Indentify the left tree calls and right tree calls.
             
             5. See how the values (and their types) are returned in each step and keep an eye on the flow of function.
+
+        Steps to solve a Recursive Problem:
+        -----------------------------------
+
+            Let f(n) be a recursive function
+
+            1) Show f(1) works (i.e. base case)
+
+            2) Assume f(n-1) works
+
+            3) Show f(n) works using f(n-1)
        */ 
           System.out.println(reverseNum(1021));
         // printDescending(10);

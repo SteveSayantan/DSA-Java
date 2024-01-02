@@ -82,7 +82,7 @@ public class Array_BSQuestions {
             if(target<letters[mid]){
                 end=mid-1;  
             }
-            else{ //If target is greater or equal to the mid, increment the start
+            else{ //If target is greater or equal to the mid, increment the start (as a potential answer may lie at the right side)
                start=mid+1;
             }
         
@@ -163,19 +163,92 @@ public class Array_BSQuestions {
     }
 
 
+    /* 
+       Notes:
+       -----
+       
+       In some of the following problems, we might face a condition where the element at 'mid' might be a solution. 
+       
+       Now, we can either include the 'mid' in our search-space by doing 'end=mid' or, we can preserve the 'mid' separately in another variable.
+
+       -------------------------------
+       Including 'mid' in search-space
+       -------------------------------
+
+       We do this by 'end=mid' .
+
+       Outermost loop should look like `while(start<end)` (when start==end, the loop should break, otherwise there's a chance of infinite loop )
+
+       Finally, we have to return start (or end) as answer.
+
+       -----------------------------
+       Preserving 'mid' separately
+       -----------------------------
+
+       We do this by 'temp=mid' and 'end=mid-1' .
+
+       Outermost loop should look like `while(start<=end)` (when start==end, the loop should execute, otherwise we may miss out the possible answer )
+
+       Finally, we have to return 'temp' as answer.
+
+    */
+
     static int peakIndexInMountainArray(int[] arr){
 
     // https://leetcode.com/problems/peak-index-in-a-mountain-array/
     // https://leetcode.com/problems/find-peak-element/ 
 
 
-        //Example of Mountain Array {1,2,3,4,3,1}  First increasing then decreasing. 4 is the peak
+        //Example of Mountain Array {1,2,3,4,3,1} . First increasing then decreasing. 4 is the peak
+
+        //Example of non-mountain Array {1,2,3,4,5} .  The last element i.e. 5 is the peak
+
+
+
+        /* 
+            In this case, if the array may have only one element or the testcases provided are not mountain arrays, we can not preserve 'mid' separately because:
+            
+            To preserve mid separately, we have to do `while(start<=end)` .
+
+            But, since we are looking for 'mid+1' element, it may cause ArrayIndexOutOfBound exception when the array has only one element or when 'start' and 'end' overlaps i.e. start==end on the last element (in case of non-mountain arrays). 
+            Hence, we can not execute the `if condition` for such cases.
+             
+            To avoid that exception, 'end>mid' check is implemented. But, due to the check, the if block will never execute when start == end in other arrays as well. 
+            Therefore, we shall get wrong output.
+
+            # If the min. length of the array is 2 and testcases provided are mountain arrays, only then we can omit the check for 'end>mid'. Then the code will work fine.
+
+            -----------------------
+            !!!!! Wrong Code !!!!!
+            ----------------------
+
+            int start = 0;
+            int end = arr.length - 1;
+
+            int ans=0;
+
+            while (start <= end) { 
+                int mid = start + (end - start) / 2;
+    
+                if (end>mid && arr[mid] > arr[mid+1]) {   // not checking end>mid can cause ArrayIndexOutOfBound error in arrays of length 1 or non-mountain arrays
+
+                    ans=mid;        // it will never run when start==end (due to the check end>mid), thereby missing out on a possible answer
+                    end = mid-1;
+
+                } else {
+                    start = mid + 1; 
+                }
+            }
+                     
+            return ans; 
+         */
 
         int start = 0;
         int end = arr.length - 1;
 
         while (start < end) { //When start becomes equal to the end, we can not proceed further. So at this point the loop should break.
             int mid = start + (end - start) / 2;
+
             if (arr[mid] > arr[mid+1]) {
                 // you are in the desc part of the array but the previous element might not be greater than the mid element
                 // this is why end != mid - 1
@@ -305,10 +378,10 @@ public class Array_BSQuestions {
         if (mid > start && arr[mid] < arr[mid - 1]) {   // It might be possible that the mid is the first element in the array, therefore the first check is necessary
             return mid-1;
         }
-        if (arr[mid] <= arr[start]) {
+        if (arr[mid] <= arr[start]) {   // the 'mid' lies in the right part, so we have to move towards left to check for pivot
             end = mid - 1;
         } else {
-            start = mid + 1;
+            start = mid + 1;        // We can discard 'mid' because we can surely say it is not the pivot (since, it does not respond to the first two cases)
         }
     }
     return -1;
@@ -319,8 +392,9 @@ public class Array_BSQuestions {
 
    static int searchInRotatedSorted_unique(int start,int end,int target,int[] arr){
         /* 
-            Here, instead of finding the pivot, we shall find in which sorted part the mid exists (i.e. left part or right part )
-            And perform our BS according to that.
+            Here, instead of finding the pivot, we shall find which side of the mid is sorted (i.e. left part or right part )
+            and perform our BS according to that.
+
             Reference: https://youtu.be/5qGrJbHhqFs
          */
         while(start<=end){
@@ -329,7 +403,9 @@ public class Array_BSQuestions {
     
             if(target==arr[mid]) return mid;
     
-            if(arr[mid]>=arr[start]){
+            //If the element at mid >= element at left (i.e. start), left part is sorted.
+            if(arr[mid]>=arr[start]){   //  If the element at 'mid' is equal to that at 'start', that also indicates that the left part is sorted
+
 
                 // The mid is in the left sorted part
                 if(target>=arr[start]&& target<arr[mid]){ // This is the condition for the target to be present within this range
@@ -338,6 +414,7 @@ public class Array_BSQuestions {
                 else{
                     start=mid+1;           // Search the other part
                 }
+
             }
             else{
                 // The mid is in the right sorted part
@@ -366,7 +443,7 @@ public class Array_BSQuestions {
     
             if(target==arr[mid]) return true;
 
-            else if(arr[start]==arr[mid]&& arr[mid]==arr[end]){     // If duplicates occur, discard those
+            else if(arr[start]==arr[mid]&& arr[mid]==arr[end]){     // If duplicates occur, discard those . Otherwise, we can not identify the sorted half.
                 start++;
                 end--;
             }
@@ -440,7 +517,7 @@ public class Array_BSQuestions {
             // Here, the end carries the mid (which is a possible answer). That's why when start falls on end i.e. start==end we get our answer (this is also the reason we need not write start<=end )  
 
             /* 
-                Intuition behing end=mid:
+                Intuition behind end=mid:
                 ------------------------
                 Even if we split the array, less than the required value for a particular value of 'mid' , that might be a possible answer as we can always reduce the number of items in one sub-array and
                  form another sub-array (as 'mid' indicates the maximum sum to be allowed per sub-array, enabling us to allocate any number of items having sum less than 'mid') .
@@ -461,8 +538,9 @@ public class Array_BSQuestions {
 
 }
 
-    static int countNegatives(int[][] grid) {
-       int row=grid.length-1,col= 0,count=0; //We are starting the search with the element at left bottom
+    static int countNegatives(int[][] grid) {   // https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/description/
+        
+       int row=grid.length-1,col= 0,count=0; //We are starting the search with the element at the bottom left corner
 
        while(row>=0 && col<grid[row].length){
 

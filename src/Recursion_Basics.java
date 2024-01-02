@@ -56,7 +56,12 @@ public class Recursion_Basics {
         System.out.println(n);
         if(n==5) return;
 
-        print(n+1); //This function call is the last statement of the parent function. This is why it is called tail recursion. Refer to Recursion_Questions.java for more details.
+        print(n+1); //This function call is the last statement of the parent function. This is why it is called tail recursion. 
+        
+        /* 
+            Refer to Recursion_Questions.java , https://www.geeksforgeeks.org/tail-recursion, https://www.geeksforgeeks.org/tail-call-elimination/ for more details
+            on tail-recursion and its benefits over non-tail recursion .
+        */
     }
 
     //Recursion: When a function calls itself is called recursion.

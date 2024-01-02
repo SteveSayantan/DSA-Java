@@ -51,10 +51,10 @@ public class TypeCasting {
          * Example2:
          * 
          * float a = 7/4; // 1.0 (As 7 and 4 both are integers and int/int= int. Therefore, the int value of the actual result(1.75) is stored in a,after getting converted into float)
-        *     
-        * float a = 7.0f/4 //1.75 (As 7.0f is a float, the whole operation returns a float value)
-        * 
-        * 
+         *     
+         * float a = 7.0f/4 //1.75 (As 7.0f is a float, the whole operation returns a float value)
+         * 
+         * 
         */
 
     }

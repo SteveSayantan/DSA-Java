@@ -1,7 +1,6 @@
 package Assignments;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class BS_Assignments {
     public static void main(String[] args) {
@@ -15,32 +14,52 @@ public class BS_Assignments {
 
     static int guessNumber(int n) {
         int start=1,end=n,ans=0;
-        /*              //uncomment before using
+        
         while(start<=end){
            int mid= start+(end-start)/2;
-            if(guess(mid)==-1){
+
+           /*  uncomment before use
+
+           if(guess(mid)==-1){
                 end=mid-1;
             }
             else if(guess(mid)==1){
                 start=mid+1;
             }
             else{
-               ans=mid;
+                ans=mid;
                 break;
-            }
+            } 
+            */
+            
         }
-        */
+       
         return ans;
     }
 
     static int mySqrt(int x){
-        
+        /* 
+
+        Ref: https://youtu.be/Bsv3FPUX_BA?si=dSQQO4noXU3OnKte
+
+        Intuition behind applying BS:
+        -----------------------------
+            Suppose we have to find the sqrt of 28. Now, we know that, any number after 5 can not be our answer. Similarly, any positive number <= 5  , might be our answer (but we still need to find a better one).
+            In such cases, where within a range, after a particular point no answer is possible we can apply BS.
+
+        Another Intuition:
+        ------------------
+            The question can be modified as, Find the max integer which on squaring is <= n (i.e. the input) . 
+
+            So, when, we know our answer lies between a certain range (1,n] and we are asked to find the max (or min) integer, we can apply BS.
+
+        */
         if(x==0) return 0;
         if(x<=3) return 1;
 
         // Now that we have handled all the cases upto 3, let us start checking from 4 i.e. start can be initialized with 2  
 
-        int start=2,end=x/2;    // The sqrt of a number <=number/2
+        int start=2,end=x;    
         int ans=0;
          
         while(start<=end){
@@ -56,15 +75,84 @@ public class BS_Assignments {
                 end=mid-1;
             }
             else{
-            ans=mid;            
-            start=mid+1;             
+                ans=mid;            
+                start=mid+1;      
             }
             
         }
          
-         return ans;
+        return ans;
+        /* 
+            Instead of storing the answer in a separate variable, we can simply return the 'end' .
+            
+            Because, initially, 'end' was at a not possible place , trying to move to a possible place and 'start' was at a possible place, trying to move to a not-possible place.
+
+            Hence, due to elimination, 'start' ends up pointing to the first answer which is not possible and the 'end' ends up pointing to the last place which is possible. 
+        */
         
-       }
+       
+    }
+
+    static int NthRoot(int n,int m){
+        /* 
+            n=21 , m =3  ==> -1 (because 3rd root of 21 is not an integer )
+
+            n=27 , m =3  ==> 3 (because 3rd root of 27 is 3 )
+
+            n=16 , m =4  ==> 4 (because 4th root of 16 is 2 )
+
+            Intuition behind applying BS is same as the previous question
+
+            Ref: https://youtu.be/rjEJeYCasHs?si=u5ULsbLIH9jdyC2o
+        */
+
+        int start=1,end=n;
+
+        while(start<=end){
+
+            int mid=start+(end-start)/2;
+
+            int res= calculateNthPower(mid,m,n);
+
+            if(res==1){
+                return mid;
+            }
+
+            else if(res==0){
+                start=mid+1;
+            }
+            else{
+                end=mid-1;
+            }
+        }
+
+        return -1;
+    }
+    private static int calculateNthPower(int base,int power,int target){
+        /* 
+            In most of the cases 'base^power' would be a very big value. So, instead of calculating the actual answer, we would only check
+            whether 'base^power' is equal to, greater than or less than 'target' (i.e. the number itself for which we're calculating the root )
+
+            We would,
+                return 1 if base^power == target
+                return 0 if base^power < target
+                return 2 if base^power > target
+        */
+
+        long ans=1L;
+
+        for (int i = 0; i <power; i++) {
+            ans=ans*base;
+
+            if(ans>target){
+                return 2;
+            }
+        }
+
+        if(ans==target) return 1;
+
+        return 0;
+    }
        
     static int[] twoSumII(int[] arr, int target) {
 
@@ -156,7 +244,19 @@ public class BS_Assignments {
 
     static int findKthPositive(int[] arr,int k){
 
-        // The brute-force solution is also very important, checkout https://youtu.be/uZ0N_hZpyps
+        // The brute-force solution is also very important, checkout https://youtu.be/uZ0N_hZpyps and practice the code also.
+
+        /* 
+            Intuition behind the Optimal Sol:
+            --------------------------------
+
+            1. First, we need to figure out an index range where the missing element could be present. We calculate that range by determining the number of missing
+             elements at each index and applying BS.
+
+             Finally, 'end' and 'start' points the start and end of the range respectively (Due to opposite polarity phenomenon) 
+
+            2. Calculate the missing number.
+         */
 
         int start=0,end=arr.length-1;
 
@@ -177,7 +277,8 @@ public class BS_Assignments {
         /* 
             When the loop ends, end and start will mark the beginning and end of the range respectively, in which the k-th missing number can be found
 
-            We will use,
+            To find the missing number we will use,
+            
                 arr[end]+(number of remaining missing elements after end) 
 
              or,arr[end]+(k- number of remaining missing elements till end)
@@ -235,7 +336,7 @@ public class BS_Assignments {
  }
 
     static int singleNonDuplicate(int[] nums){
-        if(nums.length==1) return nums[0];
+        
         int start = 0;
         int end = nums.length-1;
         
@@ -244,19 +345,22 @@ public class BS_Assignments {
             1. First, we divide the array in two halves on basis of mid
             2. If the element at mid and the next element are equal, we update mid to the next element so that two same elements stay in the same half.
             3. The half containing odd number of elements will contain the unique element.
+
+            # This algo. will not work properly when 'start' and 'end' lies on a single element, i.e. start==end . Hence, the loop should break at this point.
             
         */
-        while(start<end){
+        while(start<end){       
+
             int mid = start+(end-start)/2;      // divide the array
             
-            if(nums[mid]==nums[mid+1]) mid = mid-1;      //two same elements should be in same half
+            if(nums[mid]==nums[mid+1]) mid = mid-1;      //two same elements should be in same half ( element at 'mid' & 'mid+1' both are the same hence none of our business, instead take 'mid-1' )
             
-            if((mid-start+1)%2!=0) end = mid;            // checking the length of left half. If its is odd then update ur right pointer to mid
+            if((mid-start+1)%2!=0) end = mid;            // checking the length of left half. If its is odd then update ur right pointer to mid (include 'mid' as it could be our ans)
             
             else start = mid+1;    // else your right half will be odd then update your left pointer to mid+1
         }
         
-        return nums[start];     //left pointer will have the answer at last
+        return nums[start];     //start (or end) pointer will have the answer at last
     }
     
     static boolean checkIfExist(int[] arr){
@@ -272,9 +376,13 @@ public class BS_Assignments {
         /* 
             Intuition:
             ----------
-            In a rotated sorted array, both the left and right side elements of the pivot are sorted.
+            First, we need to figure out which side of the 'mid' is sorted (left or right).
             
-            But even if we figure out in which sorted part (left or right) the mid is lying, we can not say that part contains the min element.
+            But even if we figure out in which sorted side (left or right) wrt the 'mid', we can not surely say that part contains the min element.
+
+            e.g. [4,5,6,7,1,2] ==> left part (wrt 'mid') is sorted, but right part contains the minimum
+
+            Again, [5,1,2,3,4] ==> right part (wrt 'mid') is sorted, but left part contains the minimum
 
             Hence, we shall pick min element from each sorted part and eleminate that half.
         */
@@ -398,7 +506,7 @@ public class BS_Assignments {
         while(start<=end){
             int mid= start+(end-start)/2;
            
-            long hourCount=0L;
+            long hourCount=0;
             for (int num : piles) {
                 if(num%mid==0){
                     hourCount+=num/mid;
@@ -644,27 +752,31 @@ public class BS_Assignments {
         
         if(m>n) return findMedianSortedArrays(nums2,nums1);     // Always apply BS on the small array to avoid index overflow while calculating l1,l2 and r1,r2
 
-        // Calculating the number of elements on each side of the partition
+        // Step 1: Calculate the number of elements on the left half of the merged array
         
-        int medianPos=((m+n)+1)/2;          // Remember this, irrespective of even or odd total length (i.e. m+n ), we know the left part will always contain (m+n+1)/2 elements
+        int medianPos=((m+n)+1)/2;          // Remember this, irrespective of even or odd total length (i.e. m+n ), we know the left part of the merged array will always contain (m+n+1)/2 elements
         
+        // Step 2: Using BS, figure out the no. of elements to be picked from first and second array, thereby figuring out the perfect partition
 
         int low=0,high=m;       // From the first array, we can take anywhere between 0 to m elements for constructing the left half.
 
         while(low<=high) {
 
-            int cut1 = (low+high)>>1;           // No of elements to be taken from the first array
+            int cut1 = (low+high)>>1;           // No. of elements to be taken from the first array
 
-            int cut2 = medianPos - cut1;        // No of elements to be taken from the second array
+            int cut2 = medianPos - cut1;        // No. of elements to be taken from the second array
 
             
             int l1 = (cut1 == 0)? Integer.MIN_VALUE:nums1[cut1-1];  // If no elements are to be taken from first array, set l1 as INT_MIN. Otherwise, set is as the element just before cut  
             int l2 = (cut2 == 0)? Integer.MIN_VALUE:nums2[cut2-1];
-
+            
             int r1 = (cut1 == m)? Integer.MAX_VALUE:nums1[cut1];    // If all the elements are taken from the first array, set l2 as INT_MAX. Otherwise, set is as the element just before cut
             int r2 = (cut2 == n)? Integer.MAX_VALUE:nums2[cut2];
 
+            // Step 3: Check if the partition is valid 
+
             if(l1<=r2 && l2<=r1) {
+
                 if((m+n)%2 != 0)
                     return Math.max(l1,l2);         // For odd length, we do not need to worry about r1 & r2
                 else 
@@ -672,10 +784,146 @@ public class BS_Assignments {
             }
             else if(l1>r2) high = cut1-1;
 
-            else low = cut1+1;      // when r1<l2, we need to increase r1
+            else low = cut1+1;      // when r1<l2, we need to decrease l2 by moving right 
         }
         return 0.0;
 
+    }
+
+    public int minDays(int[] bloomDay, int m, int k) {  // https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/description/
+
+        if(m*k>bloomDay.length) return -1;
+
+        int start=Integer.MAX_VALUE, end=Integer.MIN_VALUE;
+        
+
+        for(int day: bloomDay){
+            start=Math.min(start,day);
+            end=Math.max(end,day);
+        }
+
+        // During submission, the last two test cases, even if they seem to have a possible solution, they don't . 
+        // Hence, using this approach of initializing 'ans' with -1 (instead of doing end=mid), can help us dodge those also.
+        // Otherwise, we can't return -1 if false test cases like those appear.
+
+        int ans=-1;     
+
+        while(start<=end){
+
+            int mid= start+(end-start)/2;
+
+            int contiguousFlowerCount=0, flowerCount=0;
+
+            
+            for(int day:bloomDay){
+
+                if(day<=mid){  
+                    flowerCount++;
+
+                    if(flowerCount>=k){
+                        contiguousFlowerCount++;
+                        flowerCount=0;
+                    }
+                }
+                else{   // this means we have encountered a flower that has not bloomed yet, hence reset the counter (as continuity is broken)
+                    flowerCount=0;
+                }
+
+            
+            }
+
+
+            if(contiguousFlowerCount<m){
+                start=mid+1;
+            }
+            else{
+                end=mid-1;
+                ans=mid;
+            }
+
+        }
+        return ans;
+    }
+
+    public static int maximumOnesRow(ArrayList<ArrayList<Integer>> matrix, int n, int m){
+
+        /* 
+            Intuition:
+            ----------
+
+            1. We start our search from the top right element.
+
+            2. If '1' is encountered , we shift the column (in search of another '1') .
+
+            3. If '0' is encountered, we shift the row (as it does not make sense to search further in the same row) .
+            
+            # If the loop breaks due to exhausion of 'c', that indicates the current row has the most no. of '1's which forced us to shift columns , thereby 
+             exhausting 'c' . Hence, 'r' is our answer.
+             
+            # If the loop breaks due to exhausion of 'r' , that indicates the current column has no '1' which forced us to shift rows, thereby exhausting 'r' .
+              
+                However, the previous column contained a '1' (at some row) which made us shift to the current column (having no '1's) . So we need to capture the 'r' where
+                the last column shift took place. That will be our answer.
+        */
+        int r=0,c=m-1;
+
+        int tempRow=-1;     // This will capture the row everytime a column shift occurs. If no column shift occurs (i.e. no '1' in the matrix) , we shall return -1.
+
+        while(c>=0 && r<n){
+
+            if(matrix.get(r).get(c)==1){
+                tempRow=r;
+                c--;
+                
+            }
+            else{
+                r++;
+            }
+        }
+
+        if (c==-1) return r;    // If 'c' gets exhausted, return current 'r' count.
+
+        return tempRow;         // If 'r' gets exhausted, return the row where the last column shift occured.
+    }
+
+    public int smallestDivisor(int[] nums, int threshold) {
+        int start=1;
+        int end=Integer.MIN_VALUE;
+        
+        for(int num:nums){
+            end=Math.max(num,end);
+        }
+ 
+        while(start<=end){
+ 
+            int mid=start+(end-start)/2;
+ 
+            int res= calculateResult(nums,mid);
+ 
+            if(res>threshold){
+                start=mid+1;
+            }
+            else{
+                end=mid-1;
+            }
+        }
+        return start;
+        /* 
+            Initially, 'start' belonged to a place where it could not meet the requirement . 'end' belonged to a place where it met the requirement,
+            but was not the optimal solution.
+
+            Hence, after crossover, 'end' will point to the greatest value which could not meet the requirement and 'start' will point to the minimum value which met the requirement i.e.
+            our answer.
+        */    
+    }
+ 
+    private int calculateResult(int[] arr,float divisor){
+        int ans=0;
+
+        for(int num: arr){
+            ans+=Math.ceil(num/divisor);
+        }
+        return ans;
     }
 
     static ArrayList<Integer> countSmaller(int [] nums){

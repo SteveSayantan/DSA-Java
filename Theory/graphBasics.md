@@ -32,7 +32,38 @@
     - The rank and nullity of graph G is denoted as *r=n-k* and *u=e-n+k* respectively.
         - *r=n-k>=0* , *u= e-n+k>=0*
 
-1. To be continued from walk
+1. `Walk`: An finite alternating sequence of vertices and edges beginning and ending with vertices such that each edge is incident to preceding and following vertices.
+
+    - The origin and termius of walk may be the same.
+
+    - A vertex may appear twice or more in a walk.
+
+    - A self loop can be included in a walk.
+
+    - The number of edges in a walk is called the length of the walk.
+
+    - If a walk begins and ends at the same vertex then walk is called closed walk.
+
+    - A walk beginning and ending at different vertices is called a simple walk.
+    
+    - A simple walk in which no vertex appears twice or more is called a path.
+
+    - A simple walk in which all the edges are distinct is called a path.
+
+    - A closed walk in which no edge appears more than once is called a circuit.
+
+    - A closed walk in which no vertices except the two terminal vertices repeat is called a cycle.
+
+      - A graph contains a cycle if there is a way to take a closed walk (starting from any vertex) without repeating any vertices (except the terminal ones). 
+
+    - Every cycle is a circuit but every circuit may not be a cycle.
+
+1. `Distance between vertices` : The length of the shortest path between two vertices.
+
+1. `Diameter of a Graph` : The maximum **distance** between any two vertices.
+
+1. `Connected Graph`: To be continued...
+
 #### Important Theorems
 
 1. The sum of the degrees of all vertices in a graph G is twice the sum of edges in the graph G.

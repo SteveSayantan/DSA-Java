@@ -26,9 +26,9 @@ public class Array_2D_BinarySearch {
     }
     static int[] search(int[][] arr,int target ){ //Given matrix is row wise and column wise sorted (But the last element in a row and the first element of the next row might not be sorted )
 
-        /* The row pointer moves N times and the column pointer moves N times in the worst case, therefore the time complexity of this search is O(N+N)= O(2N)= O(N) */
+        // The row pointer moves N times and the column pointer moves N times in the worst case, therefore the time complexity of this search is O(N+N)= O(2N)= O(N)
 
-        int r=0,c=arr.length-1; //We are starting the search from the element at top right corner. In case of rectangular (m*n) matrix, the r pointer will search from 0 till r<m and the c pointer will search from n-1 till c>=0. 
+        int r=0,c=arr.length-1; //We are starting the search from the element at top right corner. In case of rectangular (m*n) matrix, the r pointer will search from index 0 till r<m and the c pointer will search from index n-1 till c>=0. 
 
         while(r<arr.length && c>=0){
             if(arr[r][c]==target){
