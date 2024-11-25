@@ -25,7 +25,15 @@ public class Recursion_MazeProblem {
         At every step, we can either go to right or down (except the edge cases). Hence, it can be thought as a recursion problem.
         
         Now, at most we can take 4 steps. Either two of them has to be same, hence, there are 4!/(2! * 2!) =6 possible ways to move to the 
-        bottom right cell. Since, it can be solved using permutations, most likely it can be solved by subset pattern.
+        bottom right cell. Since, it can be calculated using permutations, most likely we can write the algo using the subset pattern.
+
+        Intuition:
+
+        1) If there is only one square, we would just print the answer.
+        
+        2) We assume for a (n-1)*(n-1) maze, our solution works i.e. reaches the bottom-right cell.
+
+        3) Now, as our problem deals with n*n maze, we have to take a right follwed by a down move to get to the bottom-right cell (since, we were at the bottom-right cell of (n-1)*(n-1) maze)
       
     */
         if(r==2 && c==2){

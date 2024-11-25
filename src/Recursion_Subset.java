@@ -20,7 +20,7 @@ public class Recursion_Subset {
         System.out.println();
     }
 
-    static void stringSubset(String ans,String original){   // Printing all the substrings of a given string
+    static void stringSubset(String ans,String original){   // Printing all the subset of the characters in a given string
         // Taking one element and removing some other elements can be solved by Subset pattern.
 
         /* At every step,
@@ -46,7 +46,7 @@ public class Recursion_Subset {
     }
 
 
-    static ArrayList<String> stringSubsetArrayList(String ans,String original){   // Printing all the substrings of a given string and storing them in an arraylist
+    static ArrayList<String> stringSubsetArrayList(String ans,String original){   // Storing all the substrings of a given string in an arraylist
         /* 
             1. Here, the idea is quite same as the previous.
 
@@ -76,7 +76,7 @@ public class Recursion_Subset {
         -------------------
             1. we take out the first character of the string.
 
-            Now, there are be three possible outcomes,
+            Now, there are three possible outcomes,
 
             2. We add it to our answer string .
 

@@ -10,10 +10,10 @@ public class Test {
         
         // Factorial(2);
 
-        LeapYear(2020);
+        // LeapYear(2020);
 
         // Table(19);
-        int[] arr = {2,5,1,3,4,7};
+        int[] arr = {2,4,1,5};
         ArrayList<Integer> list1= new ArrayList<>();
         list1.add(1);
         list1.add(2);
@@ -38,7 +38,10 @@ public class Test {
         int[][] nums1={{2,3,1},{3,2,1}}, nums2={{1,2},{2,1},{1,2}};
         // MultiplyArray(nums2, nums1);
 
-        
+        // System.out.println(countZeros(1000000,100));
+
+
+        System.out.println(Arrays.toString(arr));
 
 
     }
@@ -152,6 +155,108 @@ public class Test {
         }
     }
 
+    static void getAllPermutations(String ans,String original){
+        if(original.length()==0){
+            System.out.println(ans);
+            return;
+        }
+        
+        for(int i=0;i<ans.length()+1;i++){
+            
+            char item= original.charAt(0);
+            
+            String firstSegment=ans.substring(0,i);
+            String lastSegment=ans.substring(i,ans.length());
+            
+            getAllPermutations(firstSegment+item+lastSegment,original.substring(1));
+            
+            
+        }
+    }
+
+    static int countZeros(int L,int K){ //https://prepinsta.com/tcs-codevita/python-code-for-zero-count-tcs-codevita-prepinsta/
+
+        if(L==K || K==0) return L-K;
+
+        int start=1, end= L-K;      // At lest we can have 1 zero and at max we can have L-K zeros consecutively
+
+        while(start < end){
+
+            int mid=start+(end-start)/2;
+
+            int strLen=0;           // it counts the length of the string being constructed
+            int oneCounter=0;       // counts the number of ones req. to make the string
+            int consecutiveZeroCounter=mid;     // it places consecutive zeros in the string
+
+            while(strLen<L){
+
+            /* 
+                Until the length of the string reaches L:
+
+                    1. If consecutiveZeroCounter can place Zeros:
+
+                        i. Add a zero to the string (i.e. decrement consecutiveZeroCounter).
+
+                        otherwise,
+
+                        i. Add a one to the string (i.e. increment oneCounter).
+                        ii. Make consecutiveZeroCounter equals to mid (so that, it can again place zeros)
+
+                    2. Increment the length
+            */
+                if(consecutiveZeroCounter>0){
+                    consecutiveZeroCounter--;
+                }
+                else{
+                    oneCounter++;
+                    consecutiveZeroCounter=mid;
+                }
+                strLen++;
+            }
+
+            if(oneCounter>K){       // If we need more 1s than allowed, we need to increase the number of consecutive 0s.
+                start=mid+1;
+            }
+            else{                   // Otherwise, check if we can minimize the number of 0s.
+                end=mid;
+            }
+        }
+
+        return start;
+    }
+
+    
+    static long minTime(String s){  // https://leetcode.com/discuss/interview-question/1263982/thomson-reuters-oa-circular-printer
+
+        long counter=0L;
+
+        int curPos=1;
+
+        for (int i = 0; i < s.length(); i++) {
+            
+            int destPos = s.charAt(i)-'A'+1;
+
+            // this is to calculate the clockwise distance
+            int cwDist= destPos>=curPos? 
+            destPos-curPos : 
+            26+destPos-curPos;  
+            
+            // this is to calculate the anti-clockwise distance
+            int acwDist= 26- cwDist;
+            
+           
+            // System.out.println(cwDist + " " + acwDist);
+            
+            counter+=Math.min(cwDist,acwDist);
+            
+            curPos=destPos;
+            
+        }
+        return counter;
+    }
+
 }
+
+
 
 

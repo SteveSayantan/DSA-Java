@@ -1,3 +1,11 @@
+class ListNode {    // For leetcode questions
+    int val;
+    ListNode next;
+    ListNode() {}
+    ListNode(int val) { this.val = val; }
+    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+}
+
 public class SLLQuestions {
 
     private SLLNode head,tail;
@@ -109,13 +117,34 @@ public class SLLQuestions {
 
     }
 
-    public SLLQuestions mergeLL(SLLQuestions list1,SLLQuestions list2){     //https://leetcode.com/problems/merge-two-sorted-lists/description/
+    public void deleteNode(SLLNode node) {
+        /* 
+            Intuition: 
+            From the given node, we copy the value of the next node in the current node and move ahead. This continues until we reach
+            the penultimate node. 
+            
+            When we reach the penultimate node, we break out of the loop. Copy the value of the final node to the penultimate node and
+            make the penultimate node point to null.
+        */
 
-        
-        SLLNode head1=list1 == null? null:list1.head;
-        SLLNode head2=list2 == null? null:list2.head;
+        while(node.getNext().getNext()!=null){    // since, the given node is not a tail node, node.next can't be null
+
+            node.setVal(node.getNext().getVal());
+            node=node.getNext();
+
+        }
+
+        node.setVal(node.getNext().getVal());
+        node.setNext(null);
+    }
+
+    public SLLNode mergeLL(SLLNode head1,SLLNode head2){        //https://leetcode.com/problems/merge-two-sorted-lists/description/
+
+        if(head1==null) return head2;
+        if(head2==null) return head1;
 
         SLLQuestions res= new SLLQuestions();
+
 
         while(head1!=null && head2!=null){
 
@@ -140,7 +169,7 @@ public class SLLQuestions {
             head2=head2.getNext();
         }
 
-        return res;
+        return res.getHead();
     }
 
     public boolean hasCycle(SLLQuestions list){  // https://leetcode.com/problems/linked-list-cycle/description/
@@ -171,12 +200,12 @@ public class SLLQuestions {
         /* 
             Since, we are moving the Fast pointer by two steps, it might end up being null. So we might get NullPointerException if we omit the first check.
 
-            If the node following Fast is null, we have to stop checking as it is the end of the LL. Hence the second check. 
+            If the node next to Fast is null, we have to stop checking as it is the end of the LL. Hence the second check. 
          */
         while(fast!=null && fast.getNext()!=null){     
             
 
-            fast=fast.getNext().getNext();      // moving by two steps
+            fast=fast.getNext().getNext();      // moving by two steps. For this we need the second check of while.
             slow=slow.getNext();
 
             // since, fast and slow point to the head initially, we can compare only after moving both of them. Otherwise, every time the result will be true.
@@ -229,6 +258,8 @@ public class SLLQuestions {
             Ref: https://youtu.be/2Kd0KKmmHFc?t=937 , https://youtu.be/QfbOhn0WZ88?list=PLgUwDviBIf0r47RKH7fdWN54AbWFgGuii&t=629
 
             Understand how the distance from the head node to the entry node and the collision node to entry node is always the same.
+
+            Refer to Detect_Entry_Point-Explanation.png in asset.
 
          */
         SLLNode head=list==null? null:list.head;
@@ -330,7 +361,10 @@ public class SLLQuestions {
     
 
     public SLLNode sortList(SLLNode head){  // https://leetcode.com/problems/sort-list/description/
-        
+
+        // ref: https://youtu.be/pNTc1bM1z-4?si=61L2MALDVGgaCiXj
+
+
         if(head==null || head.getNext()==null){     // if list is empty or has a single node, return the head
             return head;
         }
@@ -359,43 +393,55 @@ public class SLLQuestions {
         SLLNode right_head=sortList(slow);
         
         return mergeLL(left_head, right_head);
+
+        // Though 'slow' contains the middle node of the linked list, we can't include 'slow' in our left half as it produces erronious results for LL of size 2.
     }
     
-    public SLLNode mergeLL(SLLNode head1,SLLNode head2){  
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {         // an efficient approach to merge two sorted LL
 
-        SLLQuestions res= new SLLQuestions();
+        if(list1 == null) return list2;
+        if(list2 == null) return list1;
 
-        while(head1!=null && head2!=null){
+        ListNode res=null;
+        ListNode tailPtr=res;    // it points to the last node of our resultant LL
+    
 
-            if(head1.getVal()>head2.getVal()){
+        while(list1!=null && list2!=null){
 
-                res.insertAtEnd(head2.getVal());
-                head2=head2.getNext();
+            if(list1.val<list2.val){
+                tailPtr=insertAtLast(tailPtr,list1.val);
+                if(res==null) res=tailPtr;
+                list1=list1.next;
             }
             else{
-                res.insertAtEnd(head1.getVal());
-                head1=head1.getNext();
+                tailPtr=insertAtLast(tailPtr,list2.val);
+                if(res==null) res=tailPtr;
+                list2=list2.next;
             }
-
         }
 
-        while(head1!=null){
-            res.insertAtEnd(head1.getVal());
-            head1=head1.getNext();
-        }
-        while(head2!=null){
-            res.insertAtEnd(head2.getVal());
-            head2=head2.getNext();
+        // at this point, we can just attach the remaining portion with our resultant LL
+        if(list1!=null){
+            tailPtr.next=list1;
         }
 
-        return res.head;
+        if(list2!=null){
+            tailPtr.next=list2;
+        }
+
+        return res;
     }
 
-    public SLLNode bubbleSortLL(SLLNode head){
+    public ListNode insertAtLast(ListNode tailPtr, int val){
+        if(tailPtr==null){
+            return new ListNode(val);
+        }
 
-        // @ 1:36:30 come back after revising recursion
-        return head;
+        return tailPtr.next=new ListNode(val);
+        
     }
+
+
 
     public SLLNode recursiveReverse(SLLNode node){  //https://leetcode.com/problems/reverse-linked-list/description/
 
@@ -417,21 +463,289 @@ public class SLLQuestions {
         return head;    // return the ref to head
     }
 
-    // start from iterative reversal of linked list
+    public SLLNode iterativeReverse(SLLNode node){
+        /* 
+            Here, we would use two pointers (basically three) to reverse the connections between the nodes
+        */
+
+        SLLNode prev=null,current=node;     // 'prev' points to a previous node, 'current' points to the current node
+
+        while(current!=null){
+
+            SLLNode next=current.getNext(); // before altering the connection, we must preserve the next node
+
+            if(prev==null) tail=current;    // adjusting the tail
+
+            current.setNext(prev);
+
+            prev=current;                   
+
+            current=next;
+        }
+
+        head=prev;                         // adjusting the head
+        return prev;    
+    }
+
+    public SLLNode rangedReverse(SLLNode node,int left,int right){  // https://leetcode.com/problems/reverse-linked-list-ii/description/
+
+        // ref: https://youtu.be/GSJuwQzKSnI?si=hh0iQxXviJpbXVe-
+
+        if(node==null) return node;
+
+        SLLNode prev=null, current=node;
+
+        while(left>1){
+
+            // moving to the position to start the reversal
+            prev=current;
+            current=current.getNext();
+            left--;
+            right--;
+        }
+        
+        // here, 'current' will point to the node at the first node in the range and 'prev' will point to the previous last node outside the range
+
+        SLLNode connection=prev, left_end=current;
+
+        while(right>0){
+            SLLNode next=current.getNext();
+            current.setNext(prev);
+            prev=current;
+            current=next;
+            right--;
+        }
+
+        // at this point, current points to the next first node outside the range and prev points to the last node in the range
+
+        // properly connecting the reversed part with the original part
+        if(connection!=null){
+            connection.setNext(prev);
+        }
+        else{
+            node=prev;
+            head=prev;      // adjusting the head
+        }
+
+        left_end.setNext(current);
+
+        if(current==null) tail=left_end;    // adjusting the tail
+
+        return node;
+        
+    }
+
+    public boolean isPalindrome(SLLNode node ){ // https://leetcode.com/problems/palindrome-linked-list/
+
+        /* 
+            1. Find the middle node of the linked list
+
+            2. Reverse the right part of linked-list from the middle node. Check palindrome-ll.png (important !!)
+
+            3. Traverse the linked-list for comparison.
+
+            4. Revert the linked-list to its original config.
+        */
+
+        if (node==null) return false;
+        if(node.getNext()==null) return true;
+
+        SLLNode slow=node,fast=node;
+
+        while(fast!=null && fast.getNext()!=null){
+            slow=slow.getNext();
+            fast=fast.getNext().getNext();
+
+        }
+
+        // now slow is standing at the middle node
+
+        // reverse the right part from the middle and store the updated head in slow
+        slow=recursiveReverse(slow);
+
+        // preserve the slow for future use
+        SLLNode preservedHead=slow;
+
+        tail=fast;      // reverting the tail to its previous value as recursiveReverse modifies the tail
+
+        fast=node;      // placing the fast pointer to the start
+
+        boolean res=true;
+        while(slow!=null){  // In case of even no. of nodes, the slow pointer will reach NULL before fast. Hence, we choose it as termination condition instead of fast. Otherwise, the code won't work properly.
+
+            if(fast.getVal()!=slow.getVal()) {
+                res=false;
+                break;
+            };
+            fast=fast.getNext();
+            slow=slow.getNext();
+
+        }
+        // revert the list to its original form (no need to adjust tail here)
+        recursiveReverse(preservedHead);
+    
+        return res;
+    }
+    
+    public void reorderList(SLLNode node){      // https://leetcode.com/problems/reorder-list/description/
+        
+        if(node.getNext()==null||node.getNext().getNext()==null) return;
+
+
+        /* 
+          Basically, we are taking the first node and the last node, the second node and the penultimate node... like this to get the answer.
+
+          To achieve this, 
+
+          1. Find the middle of the ll.
+
+          2. Reverse the right portion of the ll starting from the middle.
+
+          3. Now, we can use two pointers to make connections between the left half and the reversed right half to get our answer.
+        */
+        SLLNode slow=node,fast=node;
+
+        while(fast!=null && fast.getNext()!=null){
+            slow=slow.getNext();
+            fast=fast.getNext().getNext();
+
+        }
+
+        // now slow is standing at the middle node
+
+        // reverse the right part from the middle and store the updated head in slow
+        slow=recursiveReverse(slow);
+
+        tail=fast;      // reverting the tail to its previous value as recursiveReverse modifies the tail
+
+        fast=node;      // placing the fast pointer to the start
+
+        while(slow.getNext()!=null){            // stop the loop when the slow pointer reaches the last node of the right half (as that is already connected with the last node of the left half )
+
+            SLLNode tempFNext=fast.getNext();   // preserve the next node of the fast pointer
+            fast.setNext(slow);                 // connect the fast to slow
+            fast=tempFNext;                     // update the fast
+
+            SLLNode tempSNext=slow.getNext();   // preserve the next node of the slow pointer
+            slow.setNext(fast);                 // connect the slow to fast
+            slow=tempSNext;                     // update the slow
+
+        }
+
+        tail=slow;      // adjusting the tail
+
+    }
+
+    public SLLNode reverseKGroup(SLLNode node,int k){   // https://leetcode.com/problems/reverse-nodes-in-k-group
+        
+        SLLNode temp= node;     // this is for traversing the list
+        
+        SLLNode prevNode=null;  // this tracks the last node of the previous group
+
+        while(temp!=null){
+
+            SLLNode KthNode=getKthNode(temp,k);  // Get the Kth node of the current group
+
+            if(KthNode==null){         // // If the Kth node is NULL i.e. not a complete group
+
+                if(prevNode!=null){    // If there was a previous group, link the last node to the current node
+                    prevNode.setNext(temp);
+                }
+
+                break;
+            }
+
+            SLLNode nextNode=KthNode.getNext(); // Store the next node after the Kth node
+
+            KthNode.setNext(null);      // Disconnect the Kth node to prepare for reversal
+            
+            recursiveReverse(temp); // Reverse the nodes from temp to the Kth node
+
+            if(node==temp){     // if we are dealing with the very first group, we need to update the original head
+                node=KthNode;
+            }
+            else{
+                prevNode.setNext(KthNode); // Link the last node of the previous group to the reversed group
+            }
+
+            prevNode=temp;  // Update the pointer to the last node of the previous group
+            temp=nextNode;  // Move to the next group
+        }
+
+        return node;
+
+
+    }
+    SLLNode getKthNode(SLLNode ptr,int k){
+
+        k--;
+
+        while(ptr!=null && k>0){
+            ptr=ptr.getNext();
+            k--;
+        }
+
+        return ptr;
+    }
+
+
+    public ListNode rotateRight(ListNode head, int k) {         //https://leetcode.com/problems/rotate-list/
+
+        if(head==null || head.next==null) return head;
+
+        /* 
+            1. First, we connect the last node with the head. 
+
+            2. If the length of the LL is l and we need to rotate it k times, we will have our new head at (l-k) index.
+
+            3. We store the referece to our new head and make the element at index (l-k-1) point to null.
+
+            4. Return the stored reference.
+
+        */
+
+
+        int len=1;
+        ListNode temp=head;
+
+        while(temp.next!=null){
+            temp=temp.next;
+            len++;
+        }
+
+        temp.next=head; // connecting the last node with head
+
+        int rotationCount=k%len;
+        int skip= len-rotationCount;    
+
+        temp=head;      // reusing this variable
+
+        for(int i=0;i<skip-1;i++){      // we go to the previous node of our new head
+            temp=temp.next;
+        }
+
+        head=temp.next;    
+        temp.next=null;
+
+        return head;
+
+        
+    }
+ 
 
     public static void main(String[] args) {
         SLLQuestions list1= new SLLQuestions();
-        SLLQuestions list2= new SLLQuestions();
+        // SLLQuestions list2= new SLLQuestions();
 
-        list1.insertAtEnd(-1);
-        list1.insertAtEnd(5);
+        list1.insertAtEnd(1);
+        list1.insertAtEnd(2);
         list1.insertAtEnd(3);
         list1.insertAtEnd(4);
-        list1.insertAtEnd(0);
+        list1.insertAtEnd(5);
 
-        list2.insertAtEnd(1);
-        list2.insertAtEnd(3);
-        list2.insertAtEnd(4);
+        // list2.insertAtEnd(1);
+        // list2.insertAtEnd(3);
+        // list2.insertAtEnd(4);
 
         // SLLQuestions list3= list1.mergeLL(null,list2);
         list1.displayLL();
@@ -440,7 +754,8 @@ public class SLLQuestions {
         
         // list1.head=list1.sortList(list1.head);
 
-        list1.head=list1.recursiveReverse(list1.head);
+        list1.reorderList(list1.head);
+        System.out.println(list1.tail.getVal());
         list1.displayLL();
 
     }

@@ -3,6 +3,7 @@ package Assignments;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class Array_Assignment {
@@ -11,7 +12,6 @@ public class Array_Assignment {
         // int[][] arrays={{0,0,0},{0,1,0},{1,1,1}};
         // int[][] another={{1,1,1},{0,1,0},{0,0,0}};
         rotate(num,2);
-
         System.out.println(Arrays.toString(num));
 
         // System.out.println(Arrays.toString(twoSum(num, 6)));
@@ -344,14 +344,23 @@ public class Array_Assignment {
         return true;
     }
 
-    
-    static int[] twoSum(int[] nums,int target){
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i+1; j < nums.length; j++) {
-                if(nums[i]+nums[j]==target) return new int[] {i,j};
+    public int[] twoSum(int[] nums, int target) {
+
+        HashMap<Integer,Integer> store= new HashMap<>();
+
+        for(int i=0;i<nums.length;i++){
+
+            int temp = target-nums[i];
+
+            Integer ind= store.get(temp);
+
+            if(ind!=null){
+                return new int[]{i,ind};
             }
+
+            store.put(nums[i],i);
         }
-        return null;
+        return new int []{-1,-1};
     }
 
     static int[] sumZero(int n){
@@ -523,30 +532,21 @@ public class Array_Assignment {
         return ans;
     }
 
-   static int removeDuplicates(int[] nums){
+   static int removeDuplicates(int[] arr){
     // https://leetcode.com/problems/remove-duplicates-from-sorted-array/
-    int fPointer= 0, sPointer= 1;
-        while(sPointer<nums.length){
-            
-            if(nums[sPointer]>nums[fPointer]){ 
-            // When we find unique element
-            
-                if(sPointer-fPointer>1){    // only swap when they are not adjacent
-                    swap(nums,fPointer+1,sPointer);
-                }
-                fPointer++;         // increment the fPointer 
+
+     int i = 0;
+        for (int j = 1; j < arr.length; j++) {
+            if (arr[i] != arr[j]) {
+                i++;
+                arr[i] = arr[j];
             }
-            // increment the sPointer in each iteration
-            sPointer++;            
-            
         }
-        return fPointer+1;
-   } 
-   static void swap(int [] arr, int index1, int index2){
-    int temp= arr[index1];
-    arr[index1]=arr[index2];
-    arr[index2]=temp;
-}
+        return i + 1;
+   }
+   
+   
+    
 
     static int[][] matrixReshape(int[][] mat, int r, int c){
 
@@ -581,9 +581,11 @@ public class Array_Assignment {
         return new int []{getSecondLargest(a),getSecondSmallest(a)};
 
     }
+
+
     static int getSecondLargest(int [] a){
         int max= a[0];
-        int sLargest=Integer.MIN_VALUE;
+        int sLargest=Integer.MIN_VALUE;    // we can't initialize sLargest with a[0], as a[0] might be the largest element itself.
 
         for (int i=1;i<a.length;i++){
 
@@ -591,7 +593,8 @@ public class Array_Assignment {
                 sLargest=max; // Whenever we find new max, store the old max in sLargest
                 max=a[i];
             }
-            else if(sLargest<a[i]){ // The current element might be smaller than max, but it could be greater than current sLargest
+            // The current element might be smaller than max, but it could be greater than current sLargest
+            else if(sLargest<a[i] && a[i]!=max){    // But the current element shouldn't be same as max
                 sLargest=a[i];
             }
         }
@@ -607,8 +610,9 @@ public class Array_Assignment {
                 sSmallest=min;  // Whenever we find new min, store the old max in sSmallest
                 min=a[i];
             }
-            else if (sSmallest>a[i]){   // The current element might be greater than min, but it could be smaller than current sSmallest
-                sSmallest=a[i];      
+            // The current element might be greater than min, but it could be smaller than current sSmallest
+            else if (sSmallest>a[i] && a[i]!=min){   
+                sSmallest=a[i];      // But the current element shouldn't be same as min 
             }
         }
         return sSmallest;
@@ -618,32 +622,50 @@ public class Array_Assignment {
     public void moveZeroes(int[] nums) {
         // https://leetcode.com/problems/move-zeroes/description/
         
-        if(nums.length==1){
-            return;
-        }
-        int fPointer=-1;
+        int j=-1;
 
         for(int i=0;i<nums.length;i++){
-            // find the first index of 0
-            if(nums[i]==0){
-                fPointer=i;
-                break;
-            }
-        }
 
-        if (fPointer==-1) return;   // If not found, array does not contain any zero
+            if(nums[i]!=0) continue;    // no need to worry about non-zero items
 
-        // start a pointer from the next index and search for the immediate non-zero element
-        for(int j=fPointer+1;j<nums.length;j++){
-            if(nums[j]!=0){
-                swap(nums,fPointer,j);      // swap it
-                fPointer++;                 // increase the fPointer and repeat the process
+            // at this point, we found a zero
+            if(j ==-1 )j=i+1;       // first time, j starts from i+1, otherwise it starts from where it left
+
+            while(j<nums.length && nums[j]==0){     // find a non zero item
+                j++;
             }
+
+            if(j== nums.length) break;      // if we reached the end of array, then it's over
+            
+            // otherwise, we found a non-zero element, hence perform swap with i
+            int temp=nums[i];
+            nums[i]=nums[j];
+            nums[j]=temp;
+
         }
 
     }
 
+    public int findMaxConsecutiveOnes(int[] nums) {     
 
+        // https://leetcode.com/problems/max-consecutive-ones/
+
+        int counter=0,ans=0;
+        
+        for(int num:nums){
+
+            if(num==1){     // whenever we find 1, we update both variables accordingly
+                counter++;
+                ans=Math.max(ans,counter);
+            }
+            else{
+                counter=0;
+            }
+        }
+        
+        return ans;
+    }
+    
      static List< Integer > sortedArray(int []a, int []b) {
         
         int i=0,j=0;
@@ -652,7 +674,7 @@ public class Array_Assignment {
         
         while(i<a.length && j<b.length){
 
-            if(a[i]<b[j]){
+            if(a[i]<=b[j]){
 
                 if(ans.size()==0 || a[i]>ans.get(ans.size()-1)){    // If the array is empty or current element is greater than the last element inserted
                     ans.add(a[i]);      // add it
@@ -661,18 +683,11 @@ public class Array_Assignment {
 
             }
 
-            else if(a[i]>b[j]){
+            else{
 
                 if(ans.size()==0 || b[j]>ans.get(ans.size()-1)){
                     ans.add(b[j]);
                 }
-                j++;
-            }
-            else{
-                 if(ans.size()==0 || a[i]>ans.get(ans.size()-1)){
-                    ans.add(a[i]);
-                }
-                i++;
                 j++;
             }
             
@@ -696,11 +711,113 @@ public class Array_Assignment {
         return ans;
     }
     
+    /*  
+        Dutch National Flag (DNF) Algorithm (ref: https://youtu.be/tp8JIuCXBaU?si=gdVc-JPuk2dxjGKM)
+
+        Explanation:
+        ------------
+        We assume there the lenght of the array is n.
+
+        Here, we need three variables low, mid and high. Acc. to this algo,
+
+        1. All the indices from 0 to low-1 should be filled with 0 (extreme left)
+
+        2. All the indices from low to mid-1 should be filled with 1.
+
+        3. All the indices from high+1 to n-1 should be filled with 0. (extreme right)
+
+        From mid till high, all the indices are filled with either 0 or 1 or 2, in unsorted manner.
+
+        Algo:
+        ----
+        Initially, mid will point to the first index and high will point to the last index as the entire array is unsorted.
+        low will point to the first index.
+
+        Repeat until the mid crosses high,
+
+            1. If arr[mid] is 0, we swap mid and low and increment both.
+
+            2. If arr[mid] is 1, we increment mid.
+
+            3. If arr[mid] is 2, we swap mid and high and decrement high.
+
+    */
+    public void sortColors(int [] nums){
+
+        int low=0,mid=0,high=nums.length-1;
+
+        while(mid<=high){
+
+            if(nums[mid]==0){
+                swap(mid,low,nums);
+                mid++;
+                low++;
+            }
+
+            else if(nums[mid]==1){
+                mid++;
+            }
+
+            else{
+                swap(mid,high,nums);
+                high--;
+            }
+        }
+    }
+
+    void swap(int a,int b,int[] nums){
+        int temp=nums[a];
+        nums[a]=nums[b];
+        nums[b]=temp;
+    }
+
+
+    public static int lenOfLongSubarr (int A[], int N, int K) {     //https://www.geeksforgeeks.org/longest-sub-array-sum-k/
+
+        /* 
+            Algorithm:
+            ----------
+
+            1. At each index, we calculte the sum till that index.
+
+            2. If the sum is equal to K, we calculate and update the maxLength.
+
+            3. Then, we check if the hashmap contains sum-K at any previous index. If so, then we get another subarray from that index to the current index.
+                Update the maxLength.
+
+            4. Store the sum till current index only if the sum doesn't exist already.
+        */
+
+        int sum=0,maxLen=0;
+        
+        HashMap<Integer,Integer> map= new HashMap<>();
+        
+        for(int i=0;i<N;i++){
+            
+            sum+=A[i];
+            
+            if(sum==K){
+                maxLen=Math.max(maxLen,i+1);
+            }
+            
+            if(map.containsKey(sum-K)){
+                
+                int tempInd= map.get(sum-K);
+                maxLen=Math.max(maxLen,i-tempInd);
+            }
+            
+            // This check is important because if the array contains 0s, we can't get the longest subarray w/o it. 
+            if(!map.containsKey(sum)) map.put(sum,i);
+        }
+        
+        return maxLen;
+        
+    }
+    
     // Array Hard
 
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
-
         // sort the numbers first
         Arrays.sort(nums);
 
@@ -745,4 +862,6 @@ public class Array_Assignment {
 
 
 }
+
+
 

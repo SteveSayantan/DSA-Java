@@ -1,6 +1,6 @@
 public class Recursion_Patterns {
     public static void main(String[] args) {
-        triangle(3, 0);
+        invertedTriangle(3, 0);
         // System.out.println("hello");
 
     }

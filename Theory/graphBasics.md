@@ -52,7 +52,7 @@
 
     - A closed walk in which no edge appears more than once is called a circuit.
 
-    - A closed walk in which no vertices except the two terminal vertices repeat is called a cycle.
+    - A closed walk in which no edges and no vertices except the two terminal vertices repeat is called a cycle.
 
       - A graph contains a cycle if there is a way to take a closed walk (starting from any vertex) without repeating any vertices (except the terminal ones). 
 

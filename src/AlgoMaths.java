@@ -24,7 +24,7 @@ public class AlgoMaths {
         --------------
         First, we create a boolean array of size n+1 (so that n is present as an index), all the index contain false initially.
 
-        Now, we run the loop and if a particular index contains false, we mark its multiple indices as true i.end. eliminate the multiples of that index. 
+        Now, we run the loop and if a particular index contains false, we mark its multiple indices as true i.e. eliminate the multiples of that index. 
     
     */ 
         boolean [] newArr= new boolean[n+1];
@@ -181,6 +181,60 @@ public class AlgoMaths {
         if(a==0) return b;
         return gcd(b%a,a);
     }
+
+
+
+    
+    private int mod= (int)Math.pow(10,9)+7;
+    public int countGoodNumbers(long n) {   // https://leetcode.com/problems/count-good-numbers/
+
+        /* 
+            So, as per the problem description, for even indices we have 5 choices (0, 2, 4, 6, 8) and for odd indices we have 4 choices ( 2, 3, 5, 7) .
+
+            Suppose, we want to generate all good numbers of length 4.
+
+                We have four indices i.e. 0, 1, 2, 3 .
+
+                For index 0, we have --> 5 choices
+                For index 1, we have --> 4 choices
+                For index 0, we have --> 5 choices
+                For index 0, we have --> 4 choices
+
+                Hence, we can make good numbers of length 4 in (5 * 4 * 5 * 4) i.e. 400 ways.
+
+                Therefore, the general formula we get:  5^(no. of even indices) * 4^(no. of odd indices)
+
+            Additionally, if the number is too big, we have to return the modulo 10^9 + 7 . Observe calculatePower() to understand how it is done.  
+        */
+        
+        long evenCount= ((n-1)>>1)+1;   // calculating the no. of even indices (including 0)
+        long oddCount= n-evenCount;     // calculating the no. of odd indices
+
+        long mul1= calculatePower(5,evenCount);
+        long mul2= calculatePower(4,oddCount);
+
+        return (int)((mul1*mul2)%mod);
+    }
+
+    long calculatePower(long x, long y){
+        
+        long res=1L;
+
+        while(y>0){
+
+            byte lastBit=(byte)(y&1);
+
+            if(lastBit==1){
+                res= (res*x)%mod;   
+            }
+
+            x=(x*x)%mod;
+
+            y=(y>>1);
+        }
+        return res;
+    }
+
  
 }
 

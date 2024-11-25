@@ -15,6 +15,8 @@ public class Patterns {
         
         */
         pattern31(4);
+
+        pascalsTriangle(6);
     }
 
     public static void pattern1(int n){
@@ -130,5 +132,47 @@ public class Patterns {
             }
             System.out.println();
         }
+    }
+
+    static void pascalsTriangle(int height){
+
+        /* 
+            Using the nCr formula, the representation for Pascal's triangle becomes:
+
+                       0C0
+                    1C0   1C1
+                2C0   2C1   2C2
+             3C0   3C1   3C2   3C3   
+            ...
+        */
+        for (int i = 0; i < height; i++) {
+            
+            for (int j = 0; j < height-i-1; j++) {
+                System.out.print(" ");
+            }
+
+            for (int k = 0; k <=i; k++) {
+                int factorial= getCombinatorial(i, k);
+                System.out.print(factorial+" ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    private static int getCombinatorial(int n, int r){      // gives the nCr value
+        
+        int nPr= getFactorial(n)/getFactorial(n-r);
+
+        return nPr/getFactorial(r);
+    }
+
+    private static int getFactorial(int n){
+
+        if(n==0) return 1;
+
+        if(n<3) return n;
+
+        return n*getFactorial(n-1);
     }
 }

@@ -188,9 +188,9 @@ public class Bitwise_Operators {
         */
     }
 
-    static int magicNum(int n,int b){
+    static int magicNum(int n,int b){ //https://www.geeksforgeeks.org/problems/magic-number4431/1
         /* 
-         Q: Find the nth magic number having base b (i.e. 10 for decimal, 2 for binary etc.).
+         Q: Find the nth magic number having base b (here, it is 5 as per the problem statement).
 
             Check the lecture to find out what is magic number and the detailed approach for the solution.
         */
@@ -274,7 +274,8 @@ public class Bitwise_Operators {
         /* 
          Q: Find the number of set bits in n.
 
-            If we perform n&(n-1) successively, at each step a set bit is removed from n. Therefore, no of set bits in n= no of steps required till n becomes 0.
+            If we perform n&(n-1) successively, at each step a set bit is removed from n. We get the new number as the result.
+            Therefore, no of set bits in n = no of steps required till n becomes 0.
 
         */
 

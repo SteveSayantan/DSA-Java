@@ -16,7 +16,7 @@ public class Recursion_Questions {
             
             5. See how the values (and their types) are returned in each step and keep an eye on the flow of function.
 
-        Steps to solve a Recursive Problem:
+        Generic steps to solve a Recursive Problem:
         -----------------------------------
 
             Let f(n) be a recursive function
@@ -82,6 +82,7 @@ public class Recursion_Questions {
             return mid;
         }
 
+        // It is an example of tail-recursion
         if(target<arr[mid]){
             return binarySearch(arr, target, start, mid-1);
         }
@@ -117,12 +118,12 @@ public class Recursion_Questions {
     }
 
     static int productOfDigits(int n){
-        if(n%10==n) return n;       // If there is only one digit, return it
+        if(n<10) return n;       // If there is only one digit, return it
         return (n%10)*productOfDigits(n/10); 
     }
 
 
-    static int reverseNum(int n){
+    static int reverseNum(int n){       
         int digits= (int)Math.log10(n)+1;       
         return reverseHelper(n, digits);        // since, we do not want to use global variable to store the ans, we are using helper function
     }
@@ -137,19 +138,31 @@ public class Recursion_Questions {
         return n==reverseNum(n);
     }
 
-    static int countZeros(int n){
-        return countZerosHelper(n, 0);
-    }
-    static int countZerosHelper(int n, int count){
-        if(n==0) return count;      
+    static int calculateZeros(int num){
 
-        int rem= n%10;
-        if(rem==0){
-            // If we get 0, call the function by increasing the count
-            return countZerosHelper(n/10, count+1);
+        if(num<10){
+            if(num==0) return 1;
+            return 0;
         }
-        // Otherwise, call the function w/o increasing the count
-        return countZerosHelper(n/10, count);
+        
+        int count = num%10 != 0 ? 0 : 1;
+        
+        return count+calculateZeros(num/10);
+    }
+
+    public double myPow(double x, long n) {     // https://leetcode.com/problems/powx-n/description/
+
+        if(n<0) return 1/myPow(x,-n);
+
+        if(n==0) return 1;
+
+        if(n==1) return x;
+
+        int lastBit= (int)n&1;
+
+        if(lastBit!=0) return x*myPow(x*x,n/2);
+
+        return myPow(x*x,n/2);
     }
 
 }
